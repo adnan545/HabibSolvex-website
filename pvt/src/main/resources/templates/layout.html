@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} ?: 'Habib Solvex · Premium Edible Oils'">Habib Solvex</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <!-- ========== NAVBAR FRAGMENT ========== -->
+    <div th:fragment="navbar">
+        <nav class="navbar" id="navbar">
+            <div class="container" style="width:100%;padding:0 40px;max-width:1280px;margin:0 auto;">
+                <a href="/" class="logo">
+                    <span class="oil-drop"></span>Habib<span>Solvex</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="/" th:classappend="${currentPage == 'home'} ? 'active' : ''">Home</a></li>
+                    <li><a href="/about" th:classappend="${currentPage == 'about'} ? 'active' : ''">About</a></li>
+                    <li><a href="/products" th:classappend="${currentPage == 'products'} ? 'active' : ''">Products</a></li>
+                    <li><a href="/manufacturing" th:classappend="${currentPage == 'manufacturing'} ? 'active' : ''">Manufacturing</a></li>
+                    <li><a href="/quality" th:classappend="${currentPage == 'quality'} ? 'active' : ''">Quality</a></li>
+                    <li><a href="/industries" th:classappend="${currentPage == 'industries'} ? 'active' : ''">Industries</a></li>
+                    <li><a href="/export" th:classappend="${currentPage == 'export'} ? 'active' : ''">Export</a></li>
+                    <li><a href="/contact" th:classappend="${currentPage == 'contact'} ? 'active' : ''">Contact</a></li>
+                </ul>
+                <!-- <div class="nav-actions">
+                    <button aria-label="Search"><i class="fas fa-search"></i></button>
+                    <button aria-label="Language"><i class="fas fa-globe"></i></button>
+                    <span class="badge badge-gold">EN</span>
+                </div> -->
+            </div>
+        </nav>
+    </div>
+
+    <!-- ========== FOOTER FRAGMENT ========== -->
+    <div th:fragment="footer">
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div>
+                        <a href="/" class="logo" style="color:white; font-size:1.5rem;">
+                            <span class="oil-drop"></span>Habib<span style="color:var(--golden-light);">Solvex</span>
+                        </a>
+                        <p style="color:rgba(255,255,255,0.6); margin-top:12px; font-size:0.95rem;">Pure edible oils since 2014</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>Products</h4>
+                        <a href="/products/sunflower">Sunflower Oil</a>
+                        <a href="/products/soybean">Soybean Oil</a>
+                        <a href="/products/palm">Palm Oil</a>
+                        <a href="/products/groundnut">Groundnut Oil</a>
+                        <a href="/products/industrial">Industrial Oils</a>
+                    </div>
+                    <div>
+                        <h4>Company</h4>
+                        <a href="/about">About Us</a>
+                        <a href="/manufacturing">Manufacturing</a>
+                        <a href="/quality">Quality Assurance</a>
+                        <a href="/careers">Careers</a>
+                    </div>
+                    <div>
+                        <h4>Contact</h4>
+                        <a href="/contact">Get in Touch</a>
+                        <a href="/export">Export Inquiry</a>
+                        <a href="/distributor">Distributor Program</a>
+                        <a href="mailto:habibsolvex@gmail.com">habibsolvex@gmail.com</a>
+                        <a href="tel:+919731314007">+91 9731314007</a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <span>© 2026 Habib Solvex · All rights reserved</span>
+                    <div>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Sitemap</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Navbar scroll effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbar = document.getElementById('navbar');
+            if (navbar) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 50) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

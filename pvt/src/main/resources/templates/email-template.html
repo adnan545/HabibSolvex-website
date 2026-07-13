@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Contact Form Submission</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #fcf9f2; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .header { border-bottom: 3px solid #c49a2c; padding-bottom: 20px; margin-bottom: 25px; }
+        .header h1 { color: #0f3d3a; margin: 0; font-size: 24px; }
+        .header span { color: #c49a2c; }
+        .field { margin-bottom: 15px; }
+        .field-label { font-weight: 600; color: #0f3d3a; display: block; margin-bottom: 3px; }
+        .field-value { color: #1e2b2a; padding: 8px 12px; background-color: #f8f6f0; border-radius: 6px; }
+        .message-box { background-color: #f8f6f0; padding: 15px; border-radius: 8px; border-left: 4px solid #c49a2c; margin-top: 10px; }
+        .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0d8c8; color: #6b7a76; font-size: 13px; text-align: center; }
+        .badge { display: inline-block; background-color: #e8d5a3; color: #0f3d3a; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Habib<span>Solvex</span></h1>
+            <p style="color: #6b7a76; margin: 5px 0 0;">New Contact Form Submission</p>
+        </div>
+
+        <div class="field">
+            <span class="field-label">Name</span>
+            <div class="field-value" th:text="${name}">John Doe</div>
+        </div>
+
+        <div class="field">
+            <span class="field-label">Email</span>
+            <div class="field-value" th:text="${email}">john@example.com</div>
+        </div>
+
+        <div class="field">
+            <span class="field-label">Company</span>
+            <div class="field-value" th:text="${company != null ? company : 'N/A'}">Company Name</div>
+        </div>
+
+        <div class="field">
+            <span class="field-label">Phone</span>
+            <div class="field-value" th:text="${phone}">+91 98765 43210</div>
+        </div>
+
+        <div class="field">
+            <span class="field-label">Subject</span>
+            <div class="field-value" th:text="${subject}">Product Inquiry</div>
+        </div>
+
+        <div class="field">
+            <span class="field-label">Inquiry Type</span>
+            <div class="field-value">
+                <span class="badge" th:text="${inquiryType != null ? inquiryType : 'General'}">General</span>
+            </div>
+        </div>
+
+        <div class="field">
+            <span class="field-label">Message</span>
+            <div class="message-box" th:text="${message}">Message content here...</div>
+        </div>
+
+        <div class="field">
+            <span class="field-label">Submitted At</span>
+            <div class="field-value" th:text="${timestamp}">01-01-2024 12:00:00</div>
+        </div>
+
+        <div class="footer">
+            <p>This message was sent from the Habib Solvex website contact form.</p>
+            <p style="margin: 5px 0 0;">© 2026 Habib Solvex · All rights reserved</p>
+        </div>
+    </div>
+</body>
+</html>

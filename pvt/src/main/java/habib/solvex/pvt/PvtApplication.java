@@ -1,0 +1,13 @@
+package habib.solvex.pvt;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class PvtApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(PvtApplication.class, args);
+	}
+
+}

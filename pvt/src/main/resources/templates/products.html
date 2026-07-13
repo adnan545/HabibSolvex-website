@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products · Habib Solvex</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; background:#fcf9f2; color:#1e2b2a; line-height:1.6; }
+    .container { max-width:1280px; margin:0 auto; padding:0 24px; }
+    :root { --deep-green:#0f3d3a; --golden:#c49a2c; --golden-light:#e8d5a3; --charcoal:#1e2b2a; --cream:#fcf9f2; --white:#ffffff; }
+    h1,h2,h3,h4 { font-weight:600; letter-spacing:-0.02em; }
+    h2 { font-size:2.2rem; margin-bottom:1rem; color:var(--deep-green); }
+    .section { padding:60px 0; border-bottom:1px solid rgba(15,61,58,0.06); }
+    .btn { display:inline-block; padding:12px 32px; border-radius:40px; font-weight:600; font-size:0.95rem; text-decoration:none; transition:0.25s; border:1px solid transparent; cursor:pointer; }
+    .btn-primary { background:var(--deep-green); color:white; }
+    .btn-primary:hover { background:#1c5a54; transform:translateY(-2px); }
+    .btn-outline { background:transparent; border-color:var(--deep-green); color:var(--deep-green); }
+    .btn-outline:hover { background:var(--deep-green); color:white; }
+    .btn-gold { background:var(--golden); color:white; }
+    .btn-gold:hover { background:#b08820; transform:translateY(-2px); }
+    .badge-gold { background:var(--golden-light); color:var(--deep-green); padding:4px 16px; border-radius:40px; font-weight:600; font-size:0.75rem; display:inline-block; }
+    .navbar { display:flex; justify-content:space-between; align-items:center; padding:18px 0; flex-wrap:wrap; }
+    .logo { font-size:1.8rem; font-weight:700; color:var(--deep-green); letter-spacing:-0.03em; }
+    .logo span { color:var(--golden); }
+    .nav-links { display:flex; gap:28px; list-style:none; font-weight:500; flex-wrap:wrap; }
+    .nav-links a { text-decoration:none; color:var(--charcoal); font-size:0.95rem; transition:0.2s; padding:4px 0; border-bottom:2px solid transparent; }
+    .nav-links a:hover, .nav-links a.active { color:var(--deep-green); border-bottom-color:var(--golden); }
+    .nav-actions { display:flex; gap:12px; align-items:center; }
+    .nav-actions i { font-size:1.2rem; color:var(--deep-green); cursor:pointer; }
+    .product-hero { background:linear-gradient(135deg,#f4efe4 0%,#e7dfcd 100%); border-radius:40px; padding:60px 50px; margin-top:12px; }
+    .product-hero h1 { font-size:3rem; color:var(--deep-green); }
+    .product-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:30px; margin:30px 0; }
+    .product-card { background:white; padding:30px 20px; border-radius:32px; text-align:center; border:1px solid #ede8db; transition:0.3s; }
+    .product-card:hover { transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,0.08); border-color:var(--golden); }
+    .product-card i { font-size:3rem; color:var(--golden); margin-bottom:16px; }
+    .product-card h4 { color:var(--deep-green); margin-bottom:6px; }
+    .product-card p { color:#5f6b6a; font-size:0.9rem; }
+    .product-card .btn { margin-top:12px; padding:8px 24px; font-size:0.8rem; }
+    .footer { background:var(--deep-green); color:#d6ddd9; padding:48px 0 24px; border-radius:40px 40px 0 0; margin-top:30px; }
+    .footer a { color:#d6ddd9; text-decoration:none; }
+    .footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:40px; }
+    @media (max-width:780px) { .product-hero { padding:40px 24px; } .product-hero h1 { font-size:2.2rem; } .nav-links { gap:14px; } }
+  </style>
+</head>
+<body>
+  <div th:replace="~{layout :: navbar}"></div>
+  <div class="container">
+    <section class="product-hero">
+      <span class="badge-gold">our range</span>
+      <h1>Premium Edible Oils</h1>
+      <p style="max-width:700px; font-size:1.1rem; margin-top:12px;">Every oil is refined to the highest standards, ensuring purity, nutrition, and consistent quality for food service, retail, and industrial applications.</p>
+    </section>
+
+    <section class="section">
+      <div style="display:flex; justify-content:space-between; flex-wrap:wrap; align-items:center; margin-bottom:20px;">
+        <h2 style="margin-bottom:0;">Product Categories</h2>
+        <a href="#" class="btn btn-gold"><i class="fas fa-download"></i> Download Catalog</a>
+      </div>
+      <div class="product-grid">
+        <div class="product-card">
+          <i class="fas fa-seedling"></i>
+          <h4>Sunflower Oil</h4>
+          <p>High oleic, refined, heart-healthy</p>
+          <a href="/products/sunflower" class="btn btn-outline">View Details</a>
+        </div>
+        <div class="product-card">
+          <i class="fas fa-seedling"></i>
+          <h4>Soybean Oil</h4>
+          <p>Food grade, rich in omega-3</p>
+          <a href="/products/soybean" class="btn btn-outline">View Details</a>
+        </div>
+        <div class="product-card">
+          <i class="fas fa-seedling"></i>
+          <h4>Palm Oil</h4>
+          <p>RBD, stable for frying</p>
+          <a href="/products/palm" class="btn btn-outline">View Details</a>
+        </div>
+        <div class="product-card">
+          <i class="fas fa-seedling"></i>
+          <h4>Rice Bran Oil</h4>
+          <p>Heart-healthy, oryzanol-rich</p>
+          <a href="/products/ricebran" class="btn btn-outline">View Details</a>
+        </div>
+        <div class="product-card">
+          <i class="fas fa-seedling"></i>
+          <h4>Groundnut Oil</h4>
+          <p>Premium aromatic, cold-pressed</p>
+          <a href="/products/groundnut" class="btn btn-outline">View Details</a>
+        </div>
+        <div class="product-card">
+          <i class="fas fa-oil-can"></i>
+          <h4>Industrial Oils</h4>
+          <p>Bulk, specialty, custom blends</p>
+          <a href="/products/industrial" class="btn btn-outline">View Details</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div><h4 style="color:white;">Habib Solvex</h4><p style="font-size:0.9rem;">Pure edible oils since 2014</p></div>
+        <div><strong>Products</strong><br><a href="/products/sunflower">Sunflower</a><br><a href="/products/soybean">Soybean</a><br><a href="/products/palm">Palm</a></div>
+        <div><strong>Company</strong><br><a href="/about">About</a><br><a href="/manufacturing">Manufacturing</a></div>
+        <div><strong>Connect</strong><br><i class="fab fa-linkedin"></i> <i class="fab fa-youtube"></i> <i class="fab fa-twitter"></i></div>
+      </div>
+      <div style="border-top:1px solid #30605a; margin-top:30px; padding-top:20px; font-size:0.85rem; text-align:center;">© 2026 Habib Solvex</div>
+    </div>
+  </footer>
+</body>
+</html>

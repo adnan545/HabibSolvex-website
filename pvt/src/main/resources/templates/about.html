@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us · Habib Solvex</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; background:#fcf9f2; color:#1e2b2a; line-height:1.6; }
+    .container { max-width:1280px; margin:0 auto; padding:0 24px; }
+    :root { --deep-green:#0f3d3a; --golden:#c49a2c; --golden-light:#e8d5a3; --charcoal:#1e2b2a; --cream:#fcf9f2; --white:#ffffff; }
+    h1,h2,h3,h4 { font-weight:600; letter-spacing:-0.02em; }
+    h2 { font-size:2.2rem; margin-bottom:1rem; color:var(--deep-green); }
+    .section { padding:60px 0; border-bottom:1px solid rgba(15,61,58,0.06); }
+    .btn { display:inline-block; padding:12px 32px; border-radius:40px; font-weight:600; font-size:0.95rem; text-decoration:none; transition:0.25s; border:1px solid transparent; cursor:pointer; }
+    .btn-primary { background:var(--deep-green); color:white; }
+    .btn-primary:hover { background:#1c5a54; transform:translateY(-2px); }
+    .btn-outline { background:transparent; border-color:var(--deep-green); color:var(--deep-green); }
+    .btn-outline:hover { background:var(--deep-green); color:white; }
+    .badge-gold { background:var(--golden-light); color:var(--deep-green); padding:4px 16px; border-radius:40px; font-weight:600; font-size:0.75rem; display:inline-block; }
+    .navbar { display:flex; justify-content:space-between; align-items:center; padding:18px 0; flex-wrap:wrap; }
+    .logo { font-size:1.8rem; font-weight:700; color:var(--deep-green); letter-spacing:-0.03em; }
+    .logo span { color:var(--golden); }
+    .nav-links { display:flex; gap:28px; list-style:none; font-weight:500; flex-wrap:wrap; }
+    .nav-links a { text-decoration:none; color:var(--charcoal); font-size:0.95rem; transition:0.2s; padding:4px 0; border-bottom:2px solid transparent; }
+    .nav-links a:hover, .nav-links a.active { color:var(--deep-green); border-bottom-color:var(--golden); }
+    .nav-actions { display:flex; gap:12px; align-items:center; }
+    .nav-actions i { font-size:1.2rem; color:var(--deep-green); cursor:pointer; }
+    .about-hero { background:linear-gradient(135deg,#f4efe4 0%,#e7dfcd 100%); border-radius:40px; padding:60px 50px; margin-top:12px; }
+    .about-hero h1 { font-size:3rem; color:var(--deep-green); }
+    .timeline { display:flex; gap:20px; flex-wrap:wrap; margin:20px 0; }
+    .timeline-item { background:white; padding:20px 24px; border-radius:16px; border-left:4px solid var(--golden); flex:1 1 180px; }
+    .leadership-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:30px; margin:20px 0; }
+    .leader-card { background:white; padding:24px; border-radius:24px; text-align:center; border:1px solid #ede8db; }
+    .footer { background:var(--deep-green); color:#d6ddd9; padding:48px 0 24px; border-radius:40px 40px 0 0; margin-top:30px; }
+    .footer a { color:#d6ddd9; text-decoration:none; }
+    .footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:40px; }
+    @media (max-width:780px) { .about-hero { padding:40px 24px; } .about-hero h1 { font-size:2.2rem; } .nav-links { gap:14px; } }
+  </style>
+</head>
+<body>
+  <div th:replace="~{layout :: navbar}"></div>
+  <div class="container">
+
+    <section class="about-hero">
+      <span class="badge-gold">about us</span>
+      <h1>Our Story · Since 2014</h1>
+      <p style="max-width:700px; font-size:1.1rem; margin-top:12px;">Habib Solvex was founded with a vision to bring premium, healthy edible oils to every kitchen and industry. From a small refinery in Bangalore to a global supplier, our journey is driven by integrity, innovation, and quality.</p>
+    </section>
+
+    <section class="section">
+      <h2>Vision &amp; Mission</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:30px;">
+        <div style="background:white; padding:24px; border-radius:24px; border:1px solid #ede8db;">
+          <h4><i class="fas fa-eye" style="color:var(--golden);"></i> Vision</h4>
+          <p>To be the most trusted edible oil brand globally, known for purity, innovation, and sustainable practices.</p>
+        </div>
+        <div style="background:white; padding:24px; border-radius:24px; border:1px solid #ede8db;">
+          <h4><i class="fas fa-bullseye" style="color:var(--golden);"></i> Mission</h4>
+          <p>Deliver food-safe oils through responsible sourcing, advanced refining, and customer-centric service.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Leadership Team</h2>
+      <div class="leadership-grid">
+        <div class="leader-card">
+          <i class="fas fa-user-circle" style="font-size:3rem; color:var(--deep-green);"></i>
+          <h4>Habib Ahmed</h4>
+          <p style="color:#5f6b6a;">CEO & Founder</p>
+          <p style="font-size:0.9rem;">25+ years in agri-commodities</p>
+        </div>
+        <div class="leader-card">
+          <i class="fas fa-user-circle" style="font-size:3rem; color:var(--deep-green);"></i>
+          <h4>Priya Sharma</h4>
+          <p style="color:#5f6b6a;">Head of Operations</p>
+          <p style="font-size:0.9rem;">Ex-Cargill, 15+ years</p>
+        </div>
+        <div class="leader-card">
+          <i class="fas fa-user-circle" style="font-size:3rem; color:var(--deep-green);"></i>
+          <h4>Rahul Mehta</h4>
+          <p style="color:#5f6b6a;">Director of Exports</p>
+          <p style="font-size:0.9rem;">Global trade specialist</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Company Timeline</h2>
+      <div class="timeline">
+        <div class="timeline-item"><strong>2014</strong><br>Founded in Bangalore</div>
+        <div class="timeline-item"><strong>2016</strong><br>First export shipment</div>
+        <div class="timeline-item"><strong>2020</strong><br>ISO 22000 certified</div>
+        <div class="timeline-item"><strong>2024</strong><br>New state-of-art facility</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Infrastructure &amp; Capacity</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px;">
+        <div style="background:white; padding:20px; border-radius:16px;"><i class="fas fa-factory" style="color:var(--golden); font-size:2rem;"></i><h4>500+ MT/day</h4><p>Production capacity</p></div>
+        <div style="background:white; padding:20px; border-radius:16px;"><i class="fas fa-map-marker-alt" style="color:var(--golden); font-size:2rem;"></i><h4>3 Locations</h4><p>Bangalore · Gujarat · Mumbai</p></div>
+        <div style="background:white; padding:20px; border-radius:16px;"><i class="fas fa-warehouse" style="color:var(--golden); font-size:2rem;"></i><h4>50,000+ sq.ft</h4><p>Warehousing space</p></div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div><h4 style="color:white;">Habib Solvex</h4><p style="font-size:0.9rem;">Pure edible oils since 2014</p></div>
+        <div><strong>Products</strong><br><a href="/products/sunflower">Sunflower</a><br><a href="/products/soybean">Soybean</a><br><a href="/products/palm">Palm</a></div>
+        <div><strong>Company</strong><br><a href="/about">About</a><br><a href="/manufacturing">Manufacturing</a></div>
+        <div><strong>Connect</strong><br><i class="fab fa-linkedin"></i> <i class="fab fa-youtube"></i> <i class="fab fa-twitter"></i></div>
+      </div>
+      <div style="border-top:1px solid #30605a; margin-top:30px; padding-top:20px; font-size:0.85rem; text-align:center;">© 2026 Habib Solvex</div>
+    </div>
+  </footer>
+</body>
+</html>

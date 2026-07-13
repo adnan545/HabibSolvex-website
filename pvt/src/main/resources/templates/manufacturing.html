@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manufacturing · Habib Solvex</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; background:#fcf9f2; color:#1e2b2a; line-height:1.6; }
+    .container { max-width:1280px; margin:0 auto; padding:0 24px; }
+    :root { --deep-green:#0f3d3a; --golden:#c49a2c; --golden-light:#e8d5a3; --charcoal:#1e2b2a; --cream:#fcf9f2; --white:#ffffff; }
+    h1,h2,h3,h4 { font-weight:600; letter-spacing:-0.02em; }
+    h2 { font-size:2.2rem; margin-bottom:1rem; color:var(--deep-green); }
+    .section { padding:60px 0; border-bottom:1px solid rgba(15,61,58,0.06); }
+    .btn { display:inline-block; padding:12px 32px; border-radius:40px; font-weight:600; font-size:0.95rem; text-decoration:none; transition:0.25s; border:1px solid transparent; cursor:pointer; }
+    .btn-primary { background:var(--deep-green); color:white; }
+    .btn-primary:hover { background:#1c5a54; transform:translateY(-2px); }
+    .badge-gold { background:var(--golden-light); color:var(--deep-green); padding:4px 16px; border-radius:40px; font-weight:600; font-size:0.75rem; display:inline-block; }
+    .navbar { display:flex; justify-content:space-between; align-items:center; padding:18px 0; flex-wrap:wrap; }
+    .logo { font-size:1.8rem; font-weight:700; color:var(--deep-green); letter-spacing:-0.03em; }
+    .logo span { color:var(--golden); }
+    .nav-links { display:flex; gap:28px; list-style:none; font-weight:500; flex-wrap:wrap; }
+    .nav-links a { text-decoration:none; color:var(--charcoal); font-size:0.95rem; transition:0.2s; padding:4px 0; border-bottom:2px solid transparent; }
+    .nav-links a:hover, .nav-links a.active { color:var(--deep-green); border-bottom-color:var(--golden); }
+    .nav-actions { display:flex; gap:12px; align-items:center; }
+    .nav-actions i { font-size:1.2rem; color:var(--deep-green); cursor:pointer; }
+    .manufacturing-hero { background:linear-gradient(135deg,#f4efe4 0%,#e7dfcd 100%); border-radius:40px; padding:60px 50px; margin-top:12px; }
+    .manufacturing-hero h1 { font-size:3rem; color:var(--deep-green); }
+    .process-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:30px; margin:30px 0; }
+    .process-step { background:white; padding:24px; border-radius:24px; text-align:center; border:1px solid #ede8db; }
+    .process-step .icon { background:var(--deep-green); color:white; width:60px; height:60px; border-radius:20px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:1.8rem; }
+    .process-step:hover { transform:translateY(-4px); box-shadow:0 12px 24px rgba(0,0,0,0.06); }
+    .footer { background:var(--deep-green); color:#d6ddd9; padding:48px 0 24px; border-radius:40px 40px 0 0; margin-top:30px; }
+    .footer a { color:#d6ddd9; text-decoration:none; }
+    .footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:40px; }
+    .video-placeholder { background:#d6d0c0; border-radius:32px; padding:60px 20px; text-align:center; color:var(--deep-green); margin:20px 0; }
+    .video-placeholder i { font-size:4rem; }
+    @media (max-width:780px) { .manufacturing-hero { padding:40px 24px; } .manufacturing-hero h1 { font-size:2.2rem; } .nav-links { gap:14px; } }
+  </style>
+</head>
+<body>
+  <div th:replace="~{layout :: navbar}"></div>
+  <div class="container">
+
+    <section class="manufacturing-hero">
+      <span class="badge-gold">manufacturing</span>
+      <h1>From Seed to Bottle</h1>
+      <p style="max-width:700px; font-size:1.1rem; margin-top:12px;">Our state-of-the-art facility in Bangalore combines automation, precision, and food-safe processes to produce 500+ MT of premium edible oils every day.</p>
+    </section>
+
+    <section class="section">
+      <h2>Drone Tour</h2>
+      <div class="video-placeholder">
+        <i class="fas fa-play-circle"></i>
+        <p style="font-size:1.2rem; margin-top:12px;">Watch our facility from above</p>
+        <span class="badge-gold">drone footage available</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Refining Process</h2>
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="icon"><i class="fas fa-seedling"></i></div>
+          <h4>1. Sourcing</h4>
+          <p>Premium sunflower, soybean, and palm sourced from trusted farms.</p>
+        </div>
+        <div class="process-step">
+          <div class="icon"><i class="fas fa-filter"></i></div>
+          <h4>2. Degumming</h4>
+          <p>Removal of phospholipids and gums for clarity.</p>
+        </div>
+        <div class="process-step">
+          <div class="icon"><i class="fas fa-tint"></i></div>
+          <h4>3. Neutralization</h4>
+          <p>Free fatty acids removed using caustic soda.</p>
+        </div>
+        <div class="process-step">
+          <div class="icon"><i class="fas fa-sun"></i></div>
+          <h4>4. Bleaching &amp; Deodorization</h4>
+          <p>Color removal and odor neutralization.</p>
+        </div>
+        <div class="process-step">
+          <div class="icon"><i class="fas fa-box"></i></div>
+          <h4>5. Packaging</h4>
+          <p>Automated filling in food-grade containers.</p>
+        </div>
+        <div class="process-step">
+          <div class="icon"><i class="fas fa-flask"></i></div>
+          <h4>6. Quality Checks</h4>
+          <p>Every batch tested in our NABL-accredited lab.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Machinery &amp; Capacity</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:24px;">
+        <div style="background:white; padding:24px; border-radius:20px; border:1px solid #ede8db;">
+          <i class="fas fa-industry" style="color:var(--golden); font-size:2rem;"></i>
+          <h4>500+ MT/day</h4>
+          <p>Production capacity</p>
+        </div>
+        <div style="background:white; padding:24px; border-radius:20px; border:1px solid #ede8db;">
+          <i class="fas fa-robot" style="color:var(--golden); font-size:2rem;"></i>
+          <h4>Automated Lines</h4>
+          <p>Fully automated filling &amp; packaging</p>
+        </div>
+        <div style="background:white; padding:24px; border-radius:20px; border:1px solid #ede8db;">
+          <i class="fas fa-warehouse" style="color:var(--golden); font-size:2rem;"></i>
+          <h4>50,000 sq.ft</h4>
+          <p>Storage &amp; warehousing</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div><h4 style="color:white;">Habib Solvex</h4><p style="font-size:0.9rem;">Pure edible oils since 2014</p></div>
+        <div><strong>Products</strong><br><a href="/products/sunflower">Sunflower</a><br><a href="/products/soybean">Soybean</a><br><a href="/products/palm">Palm</a></div>
+        <div><strong>Company</strong><br><a href="/about">About</a><br><a href="/manufacturing">Manufacturing</a></div>
+        <div><strong>Connect</strong><br><i class="fab fa-linkedin"></i> <i class="fab fa-youtube"></i> <i class="fab fa-twitter"></i></div>
+      </div>
+      <div style="border-top:1px solid #30605a; margin-top:30px; padding-top:20px; font-size:0.85rem; text-align:center;">© 2026 Habib Solvex</div>
+    </div>
+  </footer>
+</body>
+</html>

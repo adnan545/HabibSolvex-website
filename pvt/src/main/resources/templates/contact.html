@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head">
+    <title>Contact Us · Habib Solvex</title>
+</head>
+<body>
+    <div th:replace="~{layout :: navbar}"></div>
+    
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="contact-hero" style="margin-top:12px;">
+            <span class="badge badge-gold"><i class="fas fa-comment-dots"></i> Get in Touch</span>
+            <h1>Contact <span class="gold">Habib Solvex</span></h1>
+            <p>Reach out to us for inquiries, partnerships, or any assistance. We're here to help.</p>
+        </section>
+
+        <!-- Company Info Banner -->
+        <section class="section" style="padding:20px 0;">
+            <div style="background:var(--gradient-hero);border-radius:24px;padding:30px 40px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;">
+                <div>
+                    <h3 style="color:var(--deep-green);margin:0;">Habib Solvex Pvt. Ltd.</h3>
+                    <p style="color:var(--charcoal-light);margin:4px 0 0;">N-44, Nilam Interlink Village, Hyderabad-500 004, India</p>
+                    <p style="color:var(--charcoal-light);margin:0;">
+                        <i class="fas fa-envelope" style="color:var(--golden);"></i> habibsolvex@gmail.com &nbsp;|&nbsp;
+                        <i class="fas fa-globe" style="color:var(--golden);"></i> www.habibsolvex.com
+                    </p>
+                </div>
+                <div>
+                    <span class="badge badge-gold"><i class="fas fa-phone"></i> +91 9731314007</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Grid -->
+        <div class="contact-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:50px;margin:30px 0;">
+            <!-- Contact Information -->
+            <div class="contact-info" style="background:var(--white);padding:40px;border-radius:24px;border:1px solid rgba(10,61,58,0.06);box-shadow:var(--shadow-soft);">
+                <h2 style="font-size:1.8rem;color:var(--deep-green);margin-bottom:8px;">Contact Information</h2>
+                <p class="subtitle" style="color:var(--charcoal-light);margin-bottom:30px;">Reach out through any of these channels</p>
+
+                <!-- Main Manufacturing Unit -->
+                <div class="info-item" style="display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid rgba(10,61,58,0.06);">
+                    <div class="icon" style="width:48px;height:48px;min-width:48px;background:var(--golden-glow);border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--golden);font-size:1.2rem;">
+                        <i class="fas fa-factory"></i>
+                    </div>
+                    <div class="content">
+                        <h4 style="color:var(--deep-green);font-size:0.9rem;margin-bottom:2px;">Main Manufacturing Unit</h4>
+                        <p style="color:var(--charcoal-light);font-size:0.95rem;margin:0;">NH4 Service Road, Hiriyur, Karnataka 577599</p>
+                    </div>
+                </div>
+
+                <!-- Bangalore Head Office -->
+                <div class="info-item" style="display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid rgba(10,61,58,0.06);">
+                    <div class="icon" style="width:48px;height:48px;min-width:48px;background:var(--golden-glow);border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--golden);font-size:1.2rem;">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="content">
+                        <h4 style="color:var(--deep-green);font-size:0.9rem;margin-bottom:2px;">Bangalore Head Office</h4>
+                        <p style="color:var(--charcoal-light);font-size:0.95rem;margin:0;">36, 1, Kenchappa Rd, Frazer Town,<br>Bengaluru, Karnataka 560005</p>
+                    </div>
+                </div>
+
+                <!-- Hyderabad Office -->
+                <div class="info-item" style="display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid rgba(10,61,58,0.06);">
+                    <div class="icon" style="width:48px;height:48px;min-width:48px;background:var(--golden-glow);border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--golden);font-size:1.2rem;">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="content">
+                        <h4 style="color:var(--deep-green);font-size:0.9rem;margin-bottom:2px;">Hyderabad Office</h4>
+                        <p style="color:var(--charcoal-light);font-size:0.95rem;margin:0;">N-44, Nilam Interlink Village,<br>Hyderabad-500 004, India</p>
+                    </div>
+                </div>
+
+                <!-- Phone -->
+                <div class="info-item" style="display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid rgba(10,61,58,0.06);">
+                    <div class="icon" style="width:48px;height:48px;min-width:48px;background:var(--golden-glow);border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--golden);font-size:1.2rem;">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="content">
+                        <h4 style="color:var(--deep-green);font-size:0.9rem;margin-bottom:2px;">Phone</h4>
+                        <p style="color:var(--charcoal-light);font-size:0.95rem;margin:0;">
+                            <a href="tel:+919731314007" style="color:var(--deep-green);text-decoration:none;">+91 9731314007</a>
+                        </p>
+                        <p style="color:var(--charcoal-light);font-size:0.85rem;margin:0;">Mon-Fri: 9:00 AM - 6:00 PM</p>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="info-item" style="display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid rgba(10,61,58,0.06);">
+                    <div class="icon" style="width:48px;height:48px;min-width:48px;background:var(--golden-glow);border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--golden);font-size:1.2rem;">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="content">
+                        <h4 style="color:var(--deep-green);font-size:0.9rem;margin-bottom:2px;">Email</h4>
+                        <p style="color:var(--charcoal-light);font-size:0.95rem;margin:0;">
+                            <a href="mailto:habibsolvex@gmail.com" style="color:var(--deep-green);text-decoration:none;">habibsolvex@gmail.com</a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Quick Contact Buttons -->
+                <div class="quick-contact" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px;">
+                    <a href="tel:+919731314007" class="btn btn-phone" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 20px;border-radius:50px;font-weight:600;font-size:0.9rem;text-decoration:none;transition:all 0.3s;border:2px solid transparent;cursor:pointer;background:var(--deep-green);color:white;border-color:var(--deep-green);">
+                        <i class="fas fa-phone"></i> Call Us
+                    </a>
+                    <a href="mailto:habibsolvex@gmail.com" class="btn btn-email" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 20px;border-radius:50px;font-weight:600;font-size:0.9rem;text-decoration:none;transition:all 0.3s;border:2px solid transparent;cursor:pointer;background:var(--golden);color:white;border-color:var(--golden);">
+                        <i class="fas fa-envelope"></i> Email
+                    </a>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form-wrapper" style="background:var(--white);padding:40px;border-radius:24px;border:1px solid rgba(10,61,58,0.06);box-shadow:var(--shadow-soft);" id="contact-form">
+                <h2 style="font-size:1.8rem;color:var(--deep-green);margin-bottom:8px;">Send a Message</h2>
+                <p class="subtitle" style="color:var(--charcoal-light);margin-bottom:30px;">Fill in the form and we'll get back to you within 24 hours.</p>
+
+                <!-- Alert Messages -->
+                <div id="successAlert" class="alert alert-success" style="display:none;padding:16px 24px;border-radius:16px;margin-bottom:24px;align-items:center;gap:12px;background:#d4edda;border:1px solid #c3e6cb;color:#155724;">
+                    <i class="fas fa-check-circle" style="color:#28a745;font-size:1.3rem;"></i>
+                    <span id="successMessage">Thank you! Your message has been sent successfully.</span>
+                    <button class="close-btn" onclick="closeAlert('successAlert')" style="margin-left:auto;cursor:pointer;font-weight:700;font-size:1.2rem;background:none;border:none;">&times;</button>
+                </div>
+
+                <div id="errorAlert" class="alert alert-error" style="display:none;padding:16px 24px;border-radius:16px;margin-bottom:24px;align-items:center;gap:12px;background:#f8d7da;border:1px solid #f5c6cb;color:#721c24;">
+                    <i class="fas fa-exclamation-circle" style="color:#dc3545;font-size:1.3rem;"></i>
+                    <span id="errorMessage">There was an error sending your message. Please try again.</span>
+                    <button class="close-btn" onclick="closeAlert('errorAlert')" style="margin-left:auto;cursor:pointer;font-weight:700;font-size:1.2rem;background:none;border:none;">&times;</button>
+                </div>
+
+                <!-- Form -->
+                <form id="contactForm" method="post" action="/contact/submit">
+                    <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+                        <div class="form-group" style="margin-bottom:18px;">
+                            <label for="name" style="display:block;font-weight:600;font-size:0.9rem;color:var(--deep-green);margin-bottom:6px;">Full Name <span class="required" style="color:#dc3545;margin-left:2px;">*</span></label>
+                            <div class="field-icon">
+                                <i class="fas fa-user" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--charcoal-light);opacity:0.5;"></i>
+                                <input type="text" id="name" name="name" placeholder="John Doe" required style="width:100%;padding:14px 18px 14px 44px;border:2px solid rgba(10,61,58,0.08);border-radius:14px;font-family:var(--font-primary);font-size:1rem;transition:all 0.3s;background:var(--cream);color:var(--charcoal);">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom:18px;">
+                            <label for="email" style="display:block;font-weight:600;font-size:0.9rem;color:var(--deep-green);margin-bottom:6px;">Email Address <span class="required" style="color:#dc3545;margin-left:2px;">*</span></label>
+                            <div class="field-icon">
+                                <i class="fas fa-envelope" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--charcoal-light);opacity:0.5;"></i>
+                                <input type="email" id="email" name="email" placeholder="john@example.com" required style="width:100%;padding:14px 18px 14px 44px;border:2px solid rgba(10,61,58,0.08);border-radius:14px;font-family:var(--font-primary);font-size:1rem;transition:all 0.3s;background:var(--cream);color:var(--charcoal);">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+                        <div class="form-group" style="margin-bottom:18px;">
+                            <label for="phone" style="display:block;font-weight:600;font-size:0.9rem;color:var(--deep-green);margin-bottom:6px;">Phone Number <span class="required" style="color:#dc3545;margin-left:2px;">*</span></label>
+                            <div class="field-icon">
+                                <i class="fas fa-phone" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--charcoal-light);opacity:0.5;"></i>
+                                <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" required style="width:100%;padding:14px 18px 14px 44px;border:2px solid rgba(10,61,58,0.08);border-radius:14px;font-family:var(--font-primary);font-size:1rem;transition:all 0.3s;background:var(--cream);color:var(--charcoal);">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom:18px;">
+                            <label for="company" style="display:block;font-weight:600;font-size:0.9rem;color:var(--deep-green);margin-bottom:6px;">Company Name</label>
+                            <div class="field-icon">
+                                <i class="fas fa-building" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--charcoal-light);opacity:0.5;"></i>
+                                <input type="text" id="company" name="company" placeholder="Your Company" style="width:100%;padding:14px 18px 14px 44px;border:2px solid rgba(10,61,58,0.08);border-radius:14px;font-family:var(--font-primary);font-size:1rem;transition:all 0.3s;background:var(--cream);color:var(--charcoal);">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:18px;">
+                        <label for="subject" style="display:block;font-weight:600;font-size:0.9rem;color:var(--deep-green);margin-bottom:6px;">Subject <span class="required" style="color:#dc3545;margin-left:2px;">*</span></label>
+                        <div class="field-icon">
+                            <i class="fas fa-tag" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--charcoal-light);opacity:0.5;"></i>
+                            <input type="text" id="subject" name="subject" placeholder="What is this regarding?" required style="width:100%;padding:14px 18px 14px 44px;border:2px solid rgba(10,61,58,0.08);border-radius:14px;font-family:var(--font-primary);font-size:1rem;transition:all 0.3s;background:var(--cream);color:var(--charcoal);">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:18px;">
+                        <label for="inquiryType" style="display:block;font-weight:600;font-size:0.9rem;color:var(--deep-green);margin-bottom:6px;">Inquiry Type</label>
+                        <select id="inquiryType" name="inquiryType" style="width:100%;padding:14px 18px;border:2px solid rgba(10,61,58,0.08);border-radius:14px;font-family:var(--font-primary);font-size:1rem;transition:all 0.3s;background:var(--cream);color:var(--charcoal);">
+                            <option value="General Inquiry">General Inquiry</option>
+                            <option value="Sales Inquiry">Sales Inquiry</option>
+                            <option value="Export Inquiry">Export Inquiry</option>
+                            <option value="Distributor Program">Distributor Program</option>
+                            <option value="Bulk Order">Bulk Order</option>
+                            <option value="Manufacturing">Manufacturing Partnership</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:18px;">
+                        <label for="message" style="display:block;font-weight:600;font-size:0.9rem;color:var(--deep-green);margin-bottom:6px;">Message <span class="required" style="color:#dc3545;margin-left:2px;">*</span></label>
+                        <textarea id="message" name="message" placeholder="Tell us about your requirements, questions, or feedback..." required style="width:100%;padding:14px 18px;border:2px solid rgba(10,61,58,0.08);border-radius:14px;font-family:var(--font-primary);font-size:1rem;transition:all 0.3s;background:var(--cream);color:var(--charcoal);height:120px;resize:vertical;min-height:80px;"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="submitBtn" style="display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:16px 40px;border-radius:50px;font-weight:600;font-size:1rem;text-decoration:none;transition:all 0.3s;border:2px solid transparent;cursor:pointer;background:var(--gradient-green);color:var(--white);border-color:var(--deep-green);width:100%;position:relative;overflow:hidden;">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== IMAGES / FACTORY PHOTOS SECTION ========== -->
+    <div class="container">
+        <section class="section" style="padding:40px 0;">
+            <div style="text-align:center;margin-bottom:30px;">
+                <span class="badge badge-gold"><i class="fas fa-camera"></i> Our Facility</span>
+                <h2 style="margin-top:8px;">Manufacturing <span class="gold">Excellence</span></h2>
+                <p style="color:var(--charcoal-light);max-width:600px;margin:0 auto;">State-of-the-art manufacturing facility with advanced refining and quality control.</p>
+            </div>
+
+            <!-- NO ENTRY WITHOUT PERMISSION Sign -->
+            <!-- <div style="background:var(--deep-green);border-radius:24px;padding:30px;margin-bottom:30px;text-align:center;border:3px solid var(--golden);">
+                <div style="font-size:2.5rem;font-weight:700;color:var(--golden);letter-spacing:8px;text-transform:uppercase;border:3px solid var(--golden);padding:20px;border-radius:16px;">
+                    <i class="fas fa-exclamation-triangle" style="color:var(--golden);margin-right:15px;"></i>
+                    NO ENTRY WITHOUT PERMISSION
+                </div>
+                <p style="color:var(--golden-light);margin-top:12px;font-size:1.1rem;font-weight:500;">
+                    HABIB SOLVEX PVT. LTD.
+                </p>
+            </div> -->
+
+            <!-- Image Gallery -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
+                <!-- Factory Image 1 -->
+                <div style="border-radius:20px;overflow:hidden;box-shadow:var(--shadow-medium);">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFLgTyw496FNNdyCtZ1zbNk7Eyn2HQV9_joenN5VaaHSZ9KMSM9Rw-DUAFnF4OCWHUx19H0APow37VnTIW6QWxlMv8fKOLorE91tI4N8jNvn82EVgoarYV87AF6XOZ4NX17TY_X=s1360-w1360-h1020-rw" 
+                         alt="Habib Solvex Factory" style="width:100%;height:250px;object-fit:cover;">
+                </div>
+
+                <!-- Factory Image 2 -->
+                <div style="border-radius:20px;overflow:hidden;box-shadow:var(--shadow-medium);">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAEpo8zBk8Uz9_4ywWUSLr5Uz5abcAsu4TyQRdUc_cyBgyibjE7TjUAVHJg8jWNX89Lk3zEK1NhayGAkDlHldr2R7xOj1Y3ftiYabOdKK-jQinyk3PnNBcZHyI81IsF703pSryCUpQ=s1360-w1360-h1020-rw" 
+                         alt="Habib Solvex Manufacturing" style="width:100%;height:250px;object-fit:cover;">
+                </div>
+
+                <!-- Factory Image 3 -->
+                <div style="border-radius:20px;overflow:hidden;box-shadow:var(--shadow-medium);">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHOtGgxVyZYjaiDjMLOmi1by02SNFdsB6FDxFEtj2VWuBRIepJl_RqPPdNoV3kkPwuDKZpBKdP-ZplPgINUpQYdwIw_1pKdojAKMnq2A1ppba7pENkrObxaandtOoWM9ErpqvPq=s1360-w1360-h1020-rw" 
+                         alt="Habib Solvex Facility" style="width:100%;height:250px;object-fit:cover;">
+                </div>
+
+                <!-- Factory Image 4 -->
+                <div style="border-radius:20px;overflow:hidden;box-shadow:var(--shadow-medium);">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFGy__M7BDOsTYjBkl_bjtWCd68Qo5rWJz-ELLTMfykeqy7dbCb07Sljiw949GLOAA4aa0nvn7OfEyPWs4uoCHPXApjVrINRCEOUj3UzvRq3bJZhhs3pgvS51KQ0NkUDOck-lKC=s1360-w1360-h1020-rw" 
+                         alt="Habib Solvex Production" style="width:100%;height:250px;object-fit:cover;">
+                </div>
+
+                <!-- Factory Image 5 -->
+                <div style="border-radius:20px;overflow:hidden;box-shadow:var(--shadow-medium);">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHQq3efw6CyfSUASftKbYXm2vqgtyJEeXuzmbkQCSb7xe3LTMDmxTPMUOFO4WagZmTkIkSJhTkZTZuO0M1IABECk3kQBfoNN0SWxTFobFMlsKwc1adHocVnaSttGOWWe97HT4TATQ=s1360-w1360-h1020-rw" 
+                         alt="Habib Solvex Quality Control" style="width:100%;height:250px;object-fit:cover;">
+                </div>
+
+                <!-- Map / Location Placeholder -->
+                <div style="border-radius:20px;overflow:hidden;box-shadow:var(--shadow-medium);background:var(--deep-green);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;min-height:250px;">
+                    <i class="fas fa-map-marked-alt" style="font-size:3rem;color:var(--golden);margin-bottom:16px;"></i>
+                    <h4 style="color:white;margin:0;">Find Us</h4>
+                    <p style="color:var(--golden-light);text-align:center;margin:8px 0 0;font-size:0.9rem;">
+                        NH4 Service Road, Hiriyur,<br>Karnataka 577599
+                    </p>
+                    <a href="https://maps.google.com" target="_blank" class="btn btn-gold btn-sm" style="margin-top:12px;padding:8px 24px;font-size:0.85rem;border-radius:50px;background:var(--gradient-gold);color:white;text-decoration:none;font-weight:600;">
+                        <i class="fas fa-location-dot"></i> View on Map
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div th:replace="layout :: footer"></div>
+
+    <!-- ========== JAVASCRIPT ========== -->
+    <script>
+        // Close alert function
+        function closeAlert(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        // Show alert function
+        function showAlert(type, message) {
+            const alertId = type === 'success' ? 'successAlert' : 'errorAlert';
+            const messageId = type === 'success' ? 'successMessage' : 'errorMessage';
+            
+            const alert = document.getElementById(alertId);
+            const msg = document.getElementById(messageId);
+            
+            msg.textContent = message;
+            alert.style.display = 'flex';
+            
+            setTimeout(function() {
+                alert.style.display = 'none';
+            }, 8000);
+        }
+
+        // Form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contactForm');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    // Validate form
+                    if (!form.checkValidity()) {
+                        form.reportValidity();
+                        return;
+                    }
+
+                    // Show loading state
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<span class="spinner" style="display:inline-block;width:20px;height:20px;border:3px solid rgba(255,255,255,0.3);border-top:3px solid white;border-radius:50%;animation:spin 0.8s linear infinite;"></span> Sending...';
+
+                    // Collect form data
+                    const formData = new FormData(form);
+                    const data = {};
+                    formData.forEach((value, key) => {
+                        data[key] = value;
+                    });
+
+                    // Send AJAX request
+                    fetch('/api/contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+
+                        if (data.success) {
+                            showAlert('success', data.message || 'Thank you! Your message has been sent successfully.');
+                            form.reset();
+                        } else {
+                            showAlert('error', data.message || 'There was an error sending your message. Please try again.');
+                        }
+                    })
+                    .catch(error => {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+                        showAlert('error', 'Network error. Please check your connection and try again.');
+                        console.error('Form submission error:', error);
+                    });
+                });
+            }
+        });
+    </script>
+
+    <style>
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</body>
+</html>
