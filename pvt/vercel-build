@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "Starting Vercel build..."
+./mvnw clean package -DskipTests -Dspring.profiles.active=vercel
+echo "Build completed!"

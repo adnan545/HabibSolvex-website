@@ -1,18 +1,15 @@
-# Create vercel.json
-@"
 {
   "version": 2,
   "builds": [
     {
-      "src": "Dockerfile.vercel",
-      "use": "@vercel/docker"
+      "src": "pom.xml",
+      "use": "@vercel/java"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/pom.xml"
+      "dest": "/"
     }
   ]
 }
-"@ | Out-File -FilePath "vercel.json" -Encoding UTF8
