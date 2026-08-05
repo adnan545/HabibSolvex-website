@@ -3,23 +3,31 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  base: './', // Important for Vercel
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
+  },
   server: {
     port: 5173,
     proxy: {
       '/api': {
-        target: 'https://your-backend-url.vercel.app', // Update after backend deploy
+        target: process.env.VITE_API_URL || 'http://localhost:5000',
         changeOrigin: true,
         secure: false,
       },
       '/uploads': {
-        target: 'https://your-backend-url.vercel.app',
+        target: process.env.VITE_API_URL || 'http://localhost:5000',
         changeOrigin: true,
         secure: false,
       }
     }
   },
-  build: {
-    outDir: 'dist',
-    sourcemap: true,
-  }
+  envPrefix: 'VITE_',
 });
