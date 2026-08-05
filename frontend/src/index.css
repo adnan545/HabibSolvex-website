@@ -1,0 +1,485 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --deep-green: #0a3d3a;
+  --golden: #c49a2c;
+  --golden-light: #e8d5a3;
+  --cream: #fcf9f2;
+  --charcoal: #1e2b2a;
+  --charcoal-light: #3a4a48;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--cream);
+  color: var(--charcoal);
+  overflow-x: hidden;
+  padding-top: 72px; /* Space for fixed navbar */
+}
+
+.gold {
+  color: var(--golden);
+}
+
+/* Container */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 60px;
+  }
+}
+
+/* Buttons */
+.btn-primary {
+  background: #0a3d3a;
+  color: white;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background: #1a5c57;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(10, 61, 58, 0.2);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #0a3d3a;
+  border: 2px solid #0a3d3a;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  background: #0a3d3a;
+  color: white;
+  transform: translateY(-3px);
+}
+
+.btn-gold {
+  background: #c49a2c;
+  color: white;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-gold:hover {
+  background: #a67c1e;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 40px rgba(196, 154, 44, 0.25);
+}
+
+.btn-sm {
+  padding: 8px 20px;
+  font-size: 0.85rem;
+}
+
+.btn-lg {
+  padding: 18px 48px;
+  font-size: 1.1rem;
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  background: var(--golden-light);
+  color: var(--deep-green);
+  padding: 6px 18px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Section */
+.section {
+  padding: 60px 0;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 80px 0;
+  }
+}
+
+.section-header {
+  text-align: left;
+  max-width: 700px;
+  margin-bottom: 40px;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--deep-green);
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .section-header h2 {
+    font-size: 2.8rem;
+  }
+}
+
+.section-header p {
+  color: var(--charcoal-light);
+  font-size: 1.05rem;
+}
+
+/* Hero Section */
+.hero-section {
+  padding: 40px 24px;
+}
+
+@media (min-width: 768px) {
+  .hero-section {
+    padding: 60px 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-section {
+    padding: 80px 60px;
+  }
+}
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .product-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* Product Card */
+.product-card {
+  background: white;
+  padding: 20px 16px;
+  border-radius: 20px;
+  text-align: center;
+  border: 1px solid rgba(10, 61, 58, 0.06);
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 40px rgba(10, 61, 58, 0.12);
+  border-color: var(--golden-light);
+}
+
+.product-card .icon-wrapper {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 12px;
+  background: var(--cream);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.product-card:hover .icon-wrapper {
+  background: var(--golden-light);
+  transform: scale(1.05);
+}
+
+.product-card .icon-wrapper i {
+  font-size: 1.8rem;
+  color: var(--golden);
+}
+
+.product-card h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--deep-green);
+  margin-bottom: 4px;
+}
+
+.product-card p {
+  font-size: 0.8rem;
+  color: var(--charcoal-light);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .product-card {
+    padding: 14px 10px;
+  }
+  
+  .product-card .icon-wrapper {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .product-card .icon-wrapper i {
+    font-size: 1.3rem;
+  }
+  
+  .product-card h4 {
+    font-size: 0.8rem;
+  }
+  
+  .product-card p {
+    font-size: 0.7rem;
+  }
+}
+
+/* Hero Slider Fixes */
+.hero-slider-wrapper {
+  margin-top: -4px;
+}
+
+/* Remove any extra padding from swiper */
+.swiper {
+  padding: 0 !important;
+}
+
+.swiper-wrapper {
+  padding: 0 !important;
+}
+
+/* Pagination styling */
+.swiper-pagination {
+  bottom: 20px !important;
+}
+
+.swiper-pagination-bullet {
+  background: white !important;
+  opacity: 0.5 !important;
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #c49a2c !important;
+  opacity: 1 !important;
+}
+
+/* Remove any default margins */
+.hero-section {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Add these responsive fixes to your index.css */
+
+/* ===== MOBILE RESPONSIVE FIXES ===== */
+
+/* Prevent horizontal scroll on mobile */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Fix for mobile menu overlay */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  
+  /* Fix for hero text on mobile */
+  .hero-text {
+    font-size: 1.5rem !important;
+  }
+  
+  /* Fix for product cards on mobile */
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  
+  /* Fix for stats on mobile */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+  
+  /* Fix for footer on mobile */
+  .footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 20px !important;
+  }
+  
+  /* Fix for badges on mobile */
+  .badge {
+    font-size: 0.6rem !important;
+    padding: 3px 10px !important;
+  }
+  
+  /* Fix for buttons on mobile */
+  .btn {
+    font-size: 0.8rem !important;
+    padding: 10px 18px !important;
+  }
+  
+  .btn-lg {
+    font-size: 0.9rem !important;
+    padding: 12px 24px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  
+  /* Single column on very small screens */
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+  
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
+  }
+  
+  .quick-contact {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Swiper pagination position fix */
+.swiper-pagination {
+  bottom: 10px !important;
+}
+
+.swiper-pagination-bullet {
+  width: 8px !important;
+  height: 8px !important;
+}
+
+@media (max-width: 768px) {
+  .swiper-pagination-bullet {
+    width: 6px !important;
+    height: 6px !important;
+  }
+}
+
+
+
+/* Hero Video Fix - No Overlap */
+.hero-video-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #0a3d3a;
+}
+
+.hero-video-section video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Ensure navbar stays above video */
+.navbar {
+  z-index: 50;
+}
+
+/* Clear any floating issues */
+.hero-video-section::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+/* Responsive video container */
+.video-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 478px;
+  overflow: hidden;
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .video-container {
+    max-height: 300px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .video-container {
+    max-height: 350px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .video-container {
+    max-height: 400px;
+  }
+}
