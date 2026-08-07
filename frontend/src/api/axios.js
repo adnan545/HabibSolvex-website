@@ -1,7 +1,19 @@
 import axios from 'axios';
 
-// Use Render backend URL
-const API_URL = import.meta.env.VITE_API_URL || 'https://habib-solvex.onrender.com/api';
+// Use the backend API root and normalize it so it always includes /api exactly once.
+const DEFAULT_API_URL = 'https://habib-solvex.onrender.com/api';
+
+const normalizeApiUrl = (url) => {
+  const trimmed = url?.trim().replace(/\/+$/, '');
+
+  if (!trimmed) {
+    return DEFAULT_API_URL;
+  }
+
+  return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+};
+
+const API_URL = normalizeApiUrl(import.meta.env.VITE_API_URL || DEFAULT_API_URL);
 
 console.log('🔗 API URL:', API_URL);
 

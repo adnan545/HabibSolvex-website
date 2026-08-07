@@ -106,6 +106,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/events', eventRoutes);
 
+// Backward-compatible aliases for clients still calling non-/api routes.
+app.use('/auth', authRoutes);
+app.use('/contact', contactRoutes);
+app.use('/events', eventRoutes);
+
 // ===== 404 Handler =====
 app.use((req, res) => {
   console.log(`❌ 404: ${req.method} ${req.url}`);

@@ -27,6 +27,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/events', eventRoutes);
 
+// Backward-compatible aliases for clients still calling non-/api routes.
+app.use('/auth', authRoutes);
+app.use('/contact', contactRoutes);
+app.use('/events', eventRoutes);
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Backend is running!' });
