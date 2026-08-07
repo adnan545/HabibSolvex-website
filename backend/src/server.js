@@ -52,7 +52,7 @@ app.use(cookieParser());
 
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// ===== HEALTH CHECK - Root and /api/health =====
+// ===== ROOT ROUTES =====
 app.get('/', (req, res) => {
   res.json({
     status: 'OK',
@@ -60,11 +60,29 @@ app.get('/', (req, res) => {
     version: '1.0.0',
     timestamp: new Date().toISOString(),
     endpoints: {
+      root: '/',
+      api: '/api',
       health: '/api/health',
       auth: '/api/auth',
       contact: '/api/contact',
       events: '/api/events'
     }
+  });
+});
+
+// ✅ ADD THIS - API root route
+app.get('/api', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Habib Solvex API is running',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      contact: '/api/contact',
+      events: '/api/events'
+    },
+    timestamp: new Date().toISOString()
   });
 });
 
@@ -117,5 +135,5 @@ app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📦 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🔗 Client URL: ${process.env.CLIENT_URL || 'not set'}`);
-  console.log(`✅ CORS enabled for: ${allowedOrigins.join(', ')}`);
+  console.log(`✅ CORS enabled`);
 });
