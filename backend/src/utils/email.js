@@ -1,16 +1,37 @@
 const nodemailer = require('nodemailer');
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
+// Check if email is configured
+const isEmailConfigured = process.env.EMAIL_USER && process.env.EMAIL_PASS;
+
+let transporter = null;
+
+if (isEmailConfigured) {
+  transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+  console.log('📧 Email service configured');
+} else {
+  console.log('⚠️ Email not configured - emails will be logged only');
+}
 
 const sendContactEmail = async (contactData) => {
   const { name, email, phone, company, subject, message, inquiryType } = contactData;
 
+  // If email is not configured, just log and return success
+  if (!isEmailConfigured || !transporter) {
+    console.log('📧 Email would be sent (config missing):');
+    console.log(`  To: ${process.env.EMAIL_USER || 'admin@example.com'}`);
+    console.log(`  From: ${email}`);
+    console.log(`  Subject: New Contact Form Submission: ${subject}`);
+    console.log(`  Message: ${message.substring(0, 200)}...`);
+    return { success: true, mock: true };
+  }
+
+  // Admin email
   const adminMailOptions = {
     from: process.env.EMAIL_USER,
     to: process.env.EMAIL_USER,
@@ -50,6 +71,7 @@ const sendContactEmail = async (contactData) => {
     `
   };
 
+  // User auto-reply
   const userMailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
