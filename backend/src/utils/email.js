@@ -1,40 +1,59 @@
 const nodemailer = require('nodemailer');
 
-// Check if email is configured
-const isEmailConfigured = process.env.EMAIL_USER && process.env.EMAIL_PASS;
+const emailUser = process.env.EMAIL_USER;
+const emailPass = process.env.EMAIL_PASS;
+const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
+const smtpPort = Number(process.env.SMTP_PORT || 587);
+const smtpSecure = process.env.SMTP_SECURE === 'true';
+
+// Prefer explicit SMTP settings, but keep Gmail-compatible defaults for existing deployments.
+const isEmailConfigured = Boolean(emailUser && emailPass);
 
 let transporter = null;
 
 if (isEmailConfigured) {
   transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: smtpHost,
+    port: smtpPort,
+    secure: smtpSecure,
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
+      user: emailUser,
+      pass: emailPass,
+    },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
   });
-  console.log('📧 Email service configured');
+
+  transporter.verify()
+    .then(() => {
+      console.log(`📧 Email service configured via ${smtpHost}:${smtpPort}`);
+    })
+    .catch((error) => {
+      console.error('❌ Email transporter verification failed:', error.message);
+    });
 } else {
-  console.log('⚠️ Email not configured - emails will be logged only');
+  console.log('⚠️ Email not configured - contact emails will not be sent');
 }
 
 const sendContactEmail = async (contactData) => {
   const { name, email, phone, company, subject, message, inquiryType } = contactData;
 
-  // If email is not configured, just log and return success
+  // If email is not configured, return a clear failure so the caller can surface it.
   if (!isEmailConfigured || !transporter) {
-    console.log('📧 Email would be sent (config missing):');
-    console.log(`  To: ${process.env.EMAIL_USER || 'admin@example.com'}`);
+    console.log('📧 Email not sent (config missing):');
+    console.log(`  To: ${emailUser || 'admin@example.com'}`);
     console.log(`  From: ${email}`);
     console.log(`  Subject: New Contact Form Submission: ${subject}`);
     console.log(`  Message: ${message.substring(0, 200)}...`);
-    return { success: true, mock: true };
+    return { success: false, error: 'Email service is not configured on the server.' };
   }
 
   // Admin email
   const adminMailOptions = {
-    from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_USER,
+    from: `Habib Solvex <${emailUser}>`,
+    to: emailUser,
+    replyTo: email,
     subject: `New Contact Form Submission: ${subject}`,
     html: `
       <!DOCTYPE html>
@@ -73,7 +92,7 @@ const sendContactEmail = async (contactData) => {
 
   // User auto-reply
   const userMailOptions = {
-    from: process.env.EMAIL_USER,
+    from: `Habib Solvex <${emailUser}>`,
     to: email,
     subject: 'Thank you for contacting Habib Solvex',
     html: `
@@ -117,8 +136,10 @@ const sendContactEmail = async (contactData) => {
   };
 
   try {
-    await transporter.sendMail(adminMailOptions);
-    await transporter.sendMail(userMailOptions);
+    await Promise.all([
+      transporter.sendMail(adminMailOptions),
+      transporter.sendMail(userMailOptions),
+    ]);
     return { success: true };
   } catch (error) {
     console.error('Email sending error:', error);
