@@ -4,6 +4,16 @@ const { body, validationResult } = require('express-validator');
 const Contact = require('../models/Contact');
 const { sendContactEmail } = require('../utils/email');
 
+// ===== TEST ROUTE =====
+router.get('/test', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Contact route is working!',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// ===== SUBMIT CONTACT FORM =====
 router.post(
   '/submit',
   [
@@ -15,11 +25,12 @@ router.post(
   ],
   async (req, res) => {
     console.log('📩 Contact form submission received');
-    console.log('Request body:', req.body);
+    console.log('📩 Request body:', req.body);
+    console.log('📩 Headers:', req.headers.origin);
     
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log('Validation errors:', errors.array());
+      console.log('❌ Validation errors:', errors.array());
       return res.status(400).json({ 
         success: false, 
         errors: errors.array() 
@@ -29,7 +40,7 @@ router.post(
     try {
       const { name, email, phone, company, subject, message, inquiryType } = req.body;
 
-      // 1. Save to database
+      // Save to database
       console.log('💾 Saving to database...');
       const contact = await Contact.create({
         name,
@@ -40,9 +51,9 @@ router.post(
         message,
         inquiryType
       });
-      console.log('✅ Contact saved:', contact._id);
+      console.log('✅ Contact saved, ID:', contact._id);
 
-      // 2. Try to send email
+      // Send emails
       console.log('📧 Sending emails...');
       const emailResult = await sendContactEmail({
         name,
@@ -54,7 +65,6 @@ router.post(
         inquiryType
       });
 
-      // 3. Return success even if email fails (message is saved)
       if (emailResult.success) {
         console.log('✅ Emails sent successfully');
         return res.status(201).json({
@@ -71,25 +81,15 @@ router.post(
       }
     } catch (error) {
       console.error('❌ Contact form error:', error);
-      console.error('Stack trace:', error.stack);
-      
-      // Check if it's a database error
-      if (error.name === 'ValidationError') {
-        return res.status(400).json({
-          success: false,
-          message: 'Validation error: ' + error.message
-        });
-      }
-      
       return res.status(500).json({
         success: false,
-        message: 'There was an error processing your request. Please try again.',
-        error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        message: 'There was an error processing your request. Please try again.'
       });
     }
   }
 );
 
+// ===== GET SUBMISSIONS =====
 router.get('/submissions', async (req, res) => {
   try {
     const submissions = await Contact.find()
