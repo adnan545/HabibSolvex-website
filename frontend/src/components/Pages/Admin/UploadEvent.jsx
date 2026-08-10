@@ -57,27 +57,29 @@ const UploadEvent = () => {
     files.forEach(file => formDataObj.append('files', file));
 
     try {
-      // Try to send to API, if fails, simulate success
+      let response;
+
       try {
-        const response = await api.post('/events/create', formDataObj, {
+        response = await api.post('/events/create', formDataObj, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
-        if (response.data.success) {
-          toast.success('Event created successfully!');
-          navigate('/admin');
-          return;
-        }
-      } catch (error) {
-        // If API fails, simulate success
-        console.log('Using mock upload - event created');
+      } catch (createRouteError) {
+        // Fallback for deployments that expose POST /events instead of /events/create.
+        response = await api.post('/events', formDataObj, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        console.warn('⚠️ Upload fallback to /events:', createRouteError.response?.data || createRouteError.message);
       }
-      
-      // Mock success
-      toast.success('Event created successfully! (Mock)');
+
+      if (!response.data.success) {
+        throw new Error(response.data.message || 'Failed to create event');
+      }
+
+      toast.success('Event created successfully!');
       navigate('/admin');
-      
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to create event');
+      console.error('❌ Event upload error:', error);
+      toast.error(error.response?.data?.message || error.message || 'Failed to create event');
     } finally {
       setLoading(false);
     }
