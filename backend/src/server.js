@@ -125,6 +125,15 @@ app.use((req, res) => {
 // ===== Error Handler =====
 app.use((err, req, res, next) => {
   console.error('❌ Server Error:', err);
+
+  // Handle malformed JSON payloads from clients/tools explicitly.
+  if (err.type === 'entity.parse.failed' || err instanceof SyntaxError) {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid JSON payload'
+    });
+  }
+
   res.status(500).json({
     success: false,
     message: 'Internal server error',
@@ -141,4 +150,10 @@ app.listen(PORT, () => {
   console.log(`📦 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🔗 Client URL: ${process.env.CLIENT_URL || 'not set'}`);
   console.log(`✅ CORS enabled`);
+  console.log('📋 Registered Routes:');
+console.log('  GET /api/events');
+console.log('  GET /api/events/admin');
+console.log('  POST /api/events/create');
+console.log('  GET /api/contact/submissions');
+console.log('  PATCH /api/contact/:id/status');
 });
