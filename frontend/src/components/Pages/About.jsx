@@ -1,12 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  FaEye, FaBullseye, FaHandshake, FaIndustry, 
-  FaMapMarkerAlt, FaWarehouse 
-} from 'react-icons/fa';
-
-import facilityImg from '../../assets/images/about/facility.jpg';
-
+import { FaEye, FaBullseye, FaHandshake, FaIndustry, FaMapMarkerAlt, FaWarehouse } from 'react-icons/fa';
 
 const About = () => {
   const timeline = [
@@ -17,22 +11,21 @@ const About = () => {
   ];
 
   const leaders = [
-    { initials: 'HA', name: 'Mehmood Khan', role: 'Director' },
-    { initials: 'PS', name: 'Nasir Khan', role: 'Director' },
-    { initials: 'RM', name: 'Mudassir Khan', role: 'Director' }
+    { initials: 'MK', name: 'Mehmood Khan', role: 'Director' },
+    { initials: 'NK', name: 'Nasir Khan', role: 'Director' },
+    { initials: 'MK', name: 'Mudassir Khan', role: 'Director' }
   ];
 
   return (
     <div className="container mx-auto px-4 md:px-8 py-8">
-      {/* ===== HERO SECTION - FIXED WITH RIGHT SIDE IMAGE ===== */}
-      <section className="bg-gradient-to-br from-[#f5efe4] to-[#e8dfce] rounded-[32px] p-8 md:p-16 mt-4 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-        {/* Left Content */}
+      {/* Hero */}
+      <section className="bg-gradient-to-br from-[#f0f3f2] to-[#e4eae8] rounded-[32px] p-8 md:p-16 mt-4 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
         <div>
-          <span className="badge"><i className="fas fa-info-circle"></i> About Us</span>
-          <h1 className="text-3xl md:text-5xl font-bold text-[#0a3d3a] mt-3">
-            About <span className="text-[#c49a2c]">Habib Solvex</span>
+          {/* <span className="badge"><i className="fas fa-info-circle"></i> About Us</span> */}
+          <h1 className="text-3xl md:text-5xl font-bold text-[#1a4d46] mt-3">
+            About <span className="text-[#2d7d6b]">Habib Solvex</span>
           </h1>
-          <p className="text-[#3a4a48] mt-3">
+          <p className="text-[#5a6b7a] mt-3">
             Habib Solvex is committed to delivering reliable, high-quality solutions with a strong focus on innovation, 
             integrity, and customer satisfaction. We believe in building lasting relationships by providing dependable 
             services tailored to the unique needs of every client.
@@ -45,26 +38,26 @@ const About = () => {
           </div>
         </div>
         
-        {/* Right Side - Image with Floating Badge */}
+        {/* Right Side - Image */}
         <div className="relative">
           <img 
-            src={facilityImg} 
-            alt="Habib Solvex - Premium Edible Oils Manufacturing"
+            src="https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=600&h=400&fit=crop&auto=format" 
+            alt="Habib Solvex Manufacturing"
             className="w-full rounded-2xl shadow-xl object-cover h-64 lg:h-72"
           />
-          <div className="absolute -bottom-4 -right-4 bg-[#0a3d3a] text-white text-sm px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
-            <span className="inline-block w-2 h-2 bg-[#c49a2c] rounded-full animate-pulse"></span>
+          <div className="absolute -bottom-4 -right-4 bg-[#1a4d46] text-white text-sm px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
+            <span className="inline-block w-2 h-2 bg-[#2d7d6b] rounded-full animate-pulse"></span>
             Manufacturing Excellence
           </div>
         </div>
       </section>
 
       {/* Company Banner */}
-      <div className="bg-gradient-to-br from-[#f5efe4] to-[#e8dfce] rounded-2xl p-6 md:p-8 my-8 flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-gradient-to-br from-[#f0f3f2] to-[#e4eae8] rounded-2xl p-6 md:p-8 my-8 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h3 className="text-xl font-bold text-[#0a3d3a]">Habib Solvex Pvt. Ltd.</h3>
-          <p className="text-[#3a4a48]">NH4 Service Road, Hiriyur, Karnataka 577599</p>
-          <p className="text-[#3a4a48] text-sm">
+          <h3 className="text-xl font-bold text-[#1a4d46]">Habib Solvex Pvt. Ltd.</h3>
+          <p className="text-[#5a6b7a]">N-44, Nilam Interlink Village, Hyderabad-500 004, India</p>
+          <p className="text-[#5a6b7a] text-sm">
             ✉️ habibsolvex@gmail.com &nbsp;|&nbsp; 🌐 www.habibsolvex.com
           </p>
         </div>
@@ -77,39 +70,39 @@ const About = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white p-8 rounded-2xl shadow-lg border border-[#0a3d3a]/10"
+          className="bg-white p-8 rounded-2xl shadow-lg border border-[#e0f0ed]"
         >
-          <div className="w-14 h-14 bg-[#c49a2c]/20 rounded-xl flex items-center justify-center text-[#c49a2c] text-2xl mb-4">
+          <div className="w-14 h-14 bg-[#e0f0ed] rounded-xl flex items-center justify-center text-[#2d7d6b] text-2xl mb-4">
             <FaEye />
           </div>
-          <h3 className="text-xl font-bold text-[#0a3d3a] mb-2">Our Vision</h3>
-          <p className="text-[#3a4a48]">To be the most trusted edible oil brand globally, known for purity, innovation, and sustainable practices.</p>
+          <h3 className="text-xl font-bold text-[#1a4d46] mb-2">Our Vision</h3>
+          <p className="text-[#5a6b7a]">To be the most trusted edible oil brand globally, known for purity, innovation, and sustainable practices.</p>
         </motion.div>
 
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-white p-8 rounded-2xl shadow-lg border border-[#0a3d3a]/10"
+          className="bg-white p-8 rounded-2xl shadow-lg border border-[#e0f0ed]"
         >
-          <div className="w-14 h-14 bg-[#c49a2c]/20 rounded-xl flex items-center justify-center text-[#c49a2c] text-2xl mb-4">
+          <div className="w-14 h-14 bg-[#e0f0ed] rounded-xl flex items-center justify-center text-[#2d7d6b] text-2xl mb-4">
             <FaBullseye />
           </div>
-          <h3 className="text-xl font-bold text-[#0a3d3a] mb-2">Our Mission</h3>
-          <p className="text-[#3a4a48]">Deliver food-safe oils through responsible sourcing, advanced refining, and customer-centric service.</p>
+          <h3 className="text-xl font-bold text-[#1a4d46] mb-2">Our Mission</h3>
+          <p className="text-[#5a6b7a]">Deliver food-safe oils through responsible sourcing, advanced refining, and customer-centric service.</p>
         </motion.div>
 
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="bg-white p-8 rounded-2xl shadow-lg border border-[#0a3d3a]/10"
+          className="bg-white p-8 rounded-2xl shadow-lg border border-[#e0f0ed]"
         >
-          <div className="w-14 h-14 bg-[#c49a2c]/20 rounded-xl flex items-center justify-center text-[#c49a2c] text-2xl mb-4">
+          <div className="w-14 h-14 bg-[#e0f0ed] rounded-xl flex items-center justify-center text-[#2d7d6b] text-2xl mb-4">
             <FaHandshake />
           </div>
-          <h3 className="text-xl font-bold text-[#0a3d3a] mb-2">Our Values</h3>
-          <p className="text-[#3a4a48]">Integrity, Quality, Innovation, Sustainability, and Customer First.</p>
+          <h3 className="text-xl font-bold text-[#1a4d46] mb-2">Our Values</h3>
+          <p className="text-[#5a6b7a]">Integrity, Quality, Innovation, Sustainability, and Customer First.</p>
         </motion.div>
       </section>
 
@@ -117,10 +110,10 @@ const About = () => {
       <section className="my-12">
         <div className="section-header">
           <span className="badge">Leadership</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#0a3d3a]">
-            Our <span className="text-[#c49a2c]">Team</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1a4d46]">
+            Our <span className="text-[#2d7d6b]">Team</span>
           </h2>
-          <p className="text-[#3a4a48]">Experienced leaders driving excellence in the edible oil industry.</p>
+          <p className="text-[#5a6b7a]">Experienced leaders driving excellence in the edible oil industry.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {leaders.map((leader, index) => (
@@ -129,13 +122,13 @@ const About = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="bg-white p-6 rounded-2xl text-center shadow-lg border border-[#0a3d3a]/10"
+              className="bg-white p-6 rounded-2xl text-center shadow-lg border border-[#e0f0ed]"
             >
-              <div className="w-20 h-20 mx-auto bg-[#e8d5a3] rounded-full flex items-center justify-center text-2xl font-bold text-[#0a3d3a]">
+              <div className="w-20 h-20 mx-auto bg-[#e0f0ed] rounded-full flex items-center justify-center text-2xl font-bold text-[#1a4d46]">
                 {leader.initials}
               </div>
-              <h4 className="text-lg font-bold text-[#0a3d3a] mt-3">{leader.name}</h4>
-              <p className="text-[#3a4a48] text-sm">{leader.role}</p>
+              <h4 className="text-lg font-bold text-[#1a4d46] mt-3">{leader.name}</h4>
+              <p className="text-[#5a6b7a] text-sm">{leader.role}</p>
             </motion.div>
           ))}
         </div>
@@ -145,8 +138,8 @@ const About = () => {
       <section className="my-12">
         <div className="section-header">
           <span className="badge">Journey</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#0a3d3a]">
-            Company <span className="text-[#c49a2c]">Timeline</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1a4d46]">
+            Company <span className="text-[#2d7d6b]">Timeline</span>
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -156,11 +149,11 @@ const About = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="bg-white p-6 rounded-xl border-l-4 border-[#c49a2c] shadow-md"
+              className="bg-white p-6 rounded-xl border-l-4 border-[#2d7d6b] shadow-md"
             >
-              <h3 className="text-2xl font-bold text-[#c49a2c]">{item.year}</h3>
-              <p className="font-semibold text-[#0a3d3a]">{item.title}</p>
-              <p className="text-sm text-[#3a4a48]">{item.desc}</p>
+              <h3 className="text-2xl font-bold text-[#2d7d6b]">{item.year}</h3>
+              <p className="font-semibold text-[#1a4d46]">{item.title}</p>
+              <p className="text-sm text-[#5a6b7a]">{item.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -170,32 +163,32 @@ const About = () => {
       <section className="my-12">
         <div className="section-header">
           <span className="badge">Infrastructure</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#0a3d3a]">
-            Our <span className="text-[#c49a2c]">Facilities</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1a4d46]">
+            Our <span className="text-[#2d7d6b]">Facilities</span>
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-2xl text-center shadow-lg border border-[#0a3d3a]/10">
-            <div className="w-16 h-16 mx-auto bg-[#c49a2c]/20 rounded-full flex items-center justify-center text-[#c49a2c] text-3xl">
+          <div className="bg-white p-6 rounded-2xl text-center shadow-lg border border-[#e0f0ed]">
+            <div className="w-16 h-16 mx-auto bg-[#e0f0ed] rounded-full flex items-center justify-center text-[#2d7d6b] text-3xl">
               <FaIndustry />
             </div>
-            <h4 className="text-lg font-bold text-[#0a3d3a] mt-3">Production Capacity</h4>
-            <p className="text-2xl font-bold text-[#c49a2c]">500+ MT/day</p>
+            <h4 className="text-lg font-bold text-[#1a4d46] mt-3">Production Capacity</h4>
+            <p className="text-2xl font-bold text-[#2d7d6b]">500+ MT/day</p>
           </div>
-          <div className="bg-white p-6 rounded-2xl text-center shadow-lg border border-[#0a3d3a]/10">
-            <div className="w-16 h-16 mx-auto bg-[#c49a2c]/20 rounded-full flex items-center justify-center text-[#c49a2c] text-3xl">
+          <div className="bg-white p-6 rounded-2xl text-center shadow-lg border border-[#e0f0ed]">
+            <div className="w-16 h-16 mx-auto bg-[#e0f0ed] rounded-full flex items-center justify-center text-[#2d7d6b] text-3xl">
               <FaMapMarkerAlt />
             </div>
-            <h4 className="text-lg font-bold text-[#0a3d3a] mt-3">Locations</h4>
-            <p className="text-xl font-bold text-[#c49a2c]">2 Facilities</p>
-            <p className="text-sm text-[#3a4a48]">Hiriyur · Bangalore</p>
+            <h4 className="text-lg font-bold text-[#1a4d46] mt-3">Locations</h4>
+            <p className="text-xl font-bold text-[#2d7d6b]">2 Facilities</p>
+            <p className="text-sm text-[#5a6b7a]">Hiriyur · Bangalore</p>
           </div>
-          <div className="bg-white p-6 rounded-2xl text-center shadow-lg border border-[#0a3d3a]/10">
-            <div className="w-16 h-16 mx-auto bg-[#c49a2c]/20 rounded-full flex items-center justify-center text-[#c49a2c] text-3xl">
+          <div className="bg-white p-6 rounded-2xl text-center shadow-lg border border-[#e0f0ed]">
+            <div className="w-16 h-16 mx-auto bg-[#e0f0ed] rounded-full flex items-center justify-center text-[#2d7d6b] text-3xl">
               <FaWarehouse />
             </div>
-            <h4 className="text-lg font-bold text-[#0a3d3a] mt-3">Warehousing</h4>
-            <p className="text-xl font-bold text-[#c49a2c]">50,000+ sq.ft</p>
+            <h4 className="text-lg font-bold text-[#1a4d46] mt-3">Warehousing</h4>
+            <p className="text-xl font-bold text-[#2d7d6b]">50,000+ sq.ft</p>
           </div>
         </div>
       </section>

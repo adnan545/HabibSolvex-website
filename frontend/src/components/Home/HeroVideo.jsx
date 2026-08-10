@@ -14,11 +14,16 @@ const HeroVideo = () => {
     }
   }, []);
 
+  const fadeUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
+  };
+
   return (
-    <section className="relative w-full bg-[#fcf9f2]">
+    <section className="relative w-full bg-[#f8f6f2] py-4 md:py-6">
       <div className="container mx-auto px-4 md:px-8">
-        {/* Video Container - Full Width, No Crop */}
-        <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl bg-[#0a3d3a]">
+        {/* Video Container - Full Width, No Crop, Frame Style */}
+        <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl bg-[#1a4d46] border border-[#e0f0ed]">
           {/* 16:9 Aspect Ratio Container */}
           <div className="relative w-full aspect-video max-h-[600px]">
             <video
@@ -33,14 +38,14 @@ const HeroVideo = () => {
               Your browser does not support the video tag.
             </video>
 
-            {/* Optional: Gradient overlay at bottom for text */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#0a3d3a]/60 to-transparent p-6">
+            {/* Gradient overlay at bottom for text */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1a4d46]/80 to-transparent p-4 md:p-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h3 className="text-white font-bold text-lg md:text-xl">Premium Edible Oils</h3>
-                  <p className="text-white/70 text-sm">Pure · Natural · Healthy</p>
+                  <h3 className="text-white font-bold text-base md:text-xl">Premium Edible Oils</h3>
+                  <p className="text-white/70 text-xs md:text-sm">Pure · Natural · Healthy</p>
                 </div>
-                <Link to="/products" className="btn-gold text-sm px-6 py-2">
+                <Link to="/products" className="bg-[#2d7d6b] hover:bg-[#4a9b8a] text-white text-xs md:text-sm px-4 py-2 md:px-6 md:py-2.5 rounded-full font-semibold transition-all shadow-lg hover:shadow-xl">
                   Shop Now →
                 </Link>
               </div>
@@ -48,15 +53,20 @@ const HeroVideo = () => {
           </div>
         </div>
 
-        {/* Content Below */}
-        <div className="text-center py-6 md:py-8">
-          <h2 className="text-2xl md:text-4xl font-bold text-[#0a3d3a]">
-            Pure Quality, <span className="text-[#c49a2c]">Trusted Since 2014</span>
+        {/* Content Below Video */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+          className="text-center py-6 md:py-8"
+        >
+          <h2 className="text-2xl md:text-4xl font-bold text-[#1a4d46]">
+            Pure Quality, <span className="text-[#2d7d6b]">Trusted Since 2014</span>
           </h2>
-          <p className="text-[#3a4a48] max-w-2xl mx-auto mt-2 text-sm md:text-base">
+          <p className="text-[#5a6b7a] max-w-2xl mx-auto mt-2 text-sm md:text-base">
             Experience the finest edible oils crafted with care and precision.
           </p>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

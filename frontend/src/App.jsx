@@ -13,12 +13,9 @@ import Home from './components/Pages/Home';
 import About from './components/Pages/About';
 import Products from './components/Pages/Products';
 import ProductDetail from './components/Pages/ProductDetail';
-import Manufacturing from './components/Pages/Manufacturing';
-import Quality from './components/Pages/Quality';
-import Industries from './components/Pages/Industries';
-import Export from './components/Pages/Export';
-import Contact from './components/Pages/Contact';
+import ManufacturingQuality from './components/Pages/ManufacturingQuality';
 import Events from './components/Pages/Events';
+import Contact from './components/Pages/Contact';
 
 // Auth
 import Login from './components/Auth/Login';
@@ -28,16 +25,11 @@ import Register from './components/Auth/Register';
 import Dashboard from './components/Pages/Admin/Dashboard';
 import UploadEvent from './components/Pages/Admin/UploadEvent';
 
-// Scroll to top component
 const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth'
-    });
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, [pathname]);
 
   return null;
@@ -50,18 +42,15 @@ function App() {
       <AuthProvider>
         <Toaster position="top-right" />
         <Navbar />
-        <main className="pt-0"> {/* Changed from pt-16 to pt-0 */}
+        <main className="pt-16">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/products" element={<Products />} />
             <Route path="/products/:id" element={<ProductDetail />} />
-            <Route path="/manufacturing" element={<Manufacturing />} />
-            <Route path="/quality" element={<Quality />} />
-            <Route path="/industries" element={<Industries />} />
-            <Route path="/export" element={<Export />} />
-            <Route path="/contact" element={<Contact />} />
+            <Route path="/manufacturing-quality" element={<ManufacturingQuality />} />
             <Route path="/events" element={<Events />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/admin" element={<Dashboard />} />

@@ -55,13 +55,13 @@ const OilFoodShowcase = () => {
   const currentOil = oils[activeOil];
 
   return (
-    <section className="section py-8 md:py-16 bg-gradient-to-b from-[#f5efe4] to-[#e8dfce]">
+    <section className="section py-8 md:py-16 bg-[#f0f3f2]">
       <div className="container mx-auto px-4 md:px-8">
         <div className="text-center mb-6 md:mb-10">
           <span className="badge text-xs md:text-sm">Oil & Food Pairing</span>
           <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-[#0a3d3a] mt-2">
             When Oil Changes, <br />
-            <span className="text-[#c49a2c]">Food Changes</span>
+            <span className="text">Food Changes</span>
           </h2>
           <p className="text-[#3a4a48] text-sm md:text-lg max-w-2xl mx-auto mt-2">
             Discover how different oils transform your cooking experience.

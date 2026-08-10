@@ -48,11 +48,11 @@ const StatCounter = ({ target, label, suffix = '' }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={hasAnimated ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6 }}
-        className="text-2xl md:text-4xl lg:text-5xl font-bold text-[#c49a2c]"
+        className="text-2xl md:text-4xl lg:text-5xl font-bold text-white"
       >
         {count}{suffix}
       </motion.div>
-      <p className="text-[#3a4a48] font-medium mt-1 text-xs md:text-sm">{label}</p>
+      <p className="text-white font-medium mt-1 text-xs md:text-sm">{label}</p>
     </div>
   );
 };
@@ -66,7 +66,7 @@ const StatsSection = () => {
   ];
 
   return (
-    <section className="section py-10 md:py-16 bg-[#0a3d3a] text-white">
+    <section className="section py-10 md:py-16 bg-[#1a4d46] text-white">
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
           {stats.map((stat, index) => (

@@ -5,7 +5,7 @@ import { FaPhone, FaEnvelope } from 'react-icons/fa';
 
 const ContactBanner = () => {
   return (
-    <section className="section bg-gradient-to-r from-[#0a3d3a] to-[#1a5c57]">
+    <section className="section bg-gradient-to-r from-[#1a4d46] to-[#2d7d6b]">
       <div className="container mx-auto px-4 md:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -14,13 +14,13 @@ const ContactBanner = () => {
           className="text-center text-white"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Have any questions? <span className="text-[#c49a2c]">Contact us</span>
+            Have any questions? <span className="text-[#4a9b8a]">Contact us</span>
           </h2>
           <p className="text-white/80 text-lg max-w-2xl mx-auto mb-8">
             Our team is here to help with your inquiries, orders, and partnership opportunities.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link to="/contact" className="btn-gold text-lg px-10 py-4">
+            <Link to="/contact" className="bg-[#4a9b8a] hover:bg-[#2d7d6b] text-white px-8 py-4 rounded-full font-semibold transition-all shadow-lg hover:shadow-xl flex items-center gap-2">
               Get in Touch →
             </Link>
             <a href="tel:+919731314007" className="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-full font-semibold hover:bg-white/30 transition-all border border-white/30 flex items-center gap-2">
