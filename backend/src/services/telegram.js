@@ -5,7 +5,7 @@ const path = require('path');
 const botToken = process.env.TELEGRAM_BOT_TOKEN;
 const chatId = process.env.TELEGRAM_CHAT_ID;
 
-// Send message using direct API call
+// Send message
 const sendTelegramMessage = async (message, options = {}) => {
   if (!botToken || !chatId) {
     console.log('📱 Telegram message (simulated):', message);
@@ -29,51 +29,8 @@ const sendTelegramMessage = async (message, options = {}) => {
   }
 };
 
-// Send photo
-const sendTelegramPhoto = async (photoPath, caption) => {
-  if (!botToken || !chatId) {
-    console.log('📱 Telegram photo (simulated):', caption);
-    return { success: true, simulated: true };
-  }
-
-  try {
-    const url = `https://api.telegram.org/bot${botToken}/sendPhoto`;
-    
-    // Check if photo is a URL or local file
-    let photo;
-    if (photoPath.startsWith('http')) {
-      photo = photoPath;
-    } else {
-      // Local file - read and send
-      const filePath = path.join(__dirname, '../..', photoPath);
-      if (fs.existsSync(filePath)) {
-        photo = fs.createReadStream(filePath);
-      } else {
-        photo = photoPath;
-      }
-    }
-
-    const formData = new FormData();
-    formData.append('chat_id', chatId);
-    formData.append('photo', photo);
-    if (caption) {
-      formData.append('caption', caption);
-      formData.append('parse_mode', 'HTML');
-    }
-
-    const response = await axios.post(url, formData, {
-      headers: formData.getHeaders ? formData.getHeaders() : {}
-    });
-    
-    return { success: true, result: response.data };
-  } catch (error) {
-    console.error('❌ Telegram photo send error:', error.response?.data || error.message);
-    return { success: false, error: error.response?.data || error.message };
-  }
-};
-
-// Download image from Telegram
-const downloadTelegramImage = async (fileId, fileName) => {
+// ===== DOWNLOAD IMAGE AND CONVERT TO BASE64 =====
+const downloadImageAsBase64 = async (fileId) => {
   try {
     if (!botToken) {
       console.log('⚠️ No bot token for image download');
@@ -87,35 +44,36 @@ const downloadTelegramImage = async (fileId, fileName) => {
     
     const filePath = fileResponse.data.result.file_path;
     
-    // Download the file
+    // Download the file as buffer
     const fileUrl = `https://api.telegram.org/file/bot${botToken}/${filePath}`;
     const response = await axios({
       method: 'get',
       url: fileUrl,
-      responseType: 'stream'
+      responseType: 'arraybuffer'
     });
 
-    // Save to uploads directory
-    const uploadsDir = path.join(__dirname, '../../uploads');
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
-
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const filename = `telegram-${uniqueSuffix}.jpg`;
-    const filepath = path.join(uploadsDir, filename);
+    // Convert to Base64
+    const base64Image = Buffer.from(response.data, 'binary').toString('base64');
     
-    const writer = fs.createWriteStream(filepath);
-    response.data.pipe(writer);
+    // Determine MIME type from file extension
+    const ext = filePath.split('.').pop().toLowerCase();
+    const mimeTypes = {
+      jpg: 'image/jpeg',
+      jpeg: 'image/jpeg',
+      png: 'image/png',
+      gif: 'image/gif',
+      webp: 'image/webp',
+      bmp: 'image/bmp'
+    };
+    const mimeType = mimeTypes[ext] || 'image/jpeg';
     
-    return new Promise((resolve, reject) => {
-      writer.on('finish', () => resolve(`/uploads/${filename}`));
-      writer.on('error', reject);
-    });
+    // Return as data URL
+    return `data:${mimeType};base64,${base64Image}`;
+    
   } catch (error) {
     console.error('❌ Image download error:', error.message);
     return null;
   }
 };
 
-module.exports = { sendTelegramMessage, sendTelegramPhoto, downloadTelegramImage };
+module.exports = { sendTelegramMessage, downloadImageAsBase64 };

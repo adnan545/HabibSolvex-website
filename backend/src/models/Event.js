@@ -26,7 +26,7 @@ const EventSchema = new mongoose.Schema({
     default: 'Event'
   },
   images: {
-    type: [String],
+    type: [String], // Now stores Base64 strings or URLs
     default: []
   },
   files: {
