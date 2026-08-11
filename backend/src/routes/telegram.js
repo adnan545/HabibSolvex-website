@@ -7,7 +7,7 @@ const { sendTelegramMessage, downloadImageAsBase64 } = require('../services/tele
 const imageGroups = {};
 const GROUP_TIMEOUT = 15000;
 
-// ===== PARSE EVENT FROM TEXT =====
+// ===== PARSE EVENT FROM TEXT WITH BETTER DATE HANDLING =====
 const parseEventFromText = (text) => {
   const lines = text.split('\n').map(line => line.trim());
   const event = {};
@@ -26,12 +26,47 @@ const parseEventFromText = (text) => {
     }
   }
 
+  // Set defaults
   if (!event.category) event.category = 'Event';
+  
+  // ===== IMPROVED DATE HANDLING =====
   if (!event.date) {
     const now = new Date();
-    event.date = now.toISOString().split('T')[0];
+    event.date = now.toISOString();
+  } else {
+    try {
+      // Try to parse the date
+      let parsedDate = new Date(event.date);
+      
+      // If invalid, try common formats
+      if (isNaN(parsedDate.getTime())) {
+        // Try DD-MM-YYYY
+        const parts = event.date.split(/[-/]/);
+        if (parts.length === 3) {
+          // Check if it's DD-MM-YYYY
+          if (parts[0].length === 2 && parts[1].length === 2 && parts[2].length === 4) {
+            parsedDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+          } else if (parts[0].length === 4 && parts[1].length === 2 && parts[2].length === 2) {
+            // YYYY-MM-DD
+            parsedDate = new Date(`${parts[0]}-${parts[1]}-${parts[2]}`);
+          }
+        }
+        
+        // If still invalid, use current date
+        if (isNaN(parsedDate.getTime())) {
+          console.log(`⚠️ Invalid date format: "${event.date}", using current date`);
+          parsedDate = new Date();
+        }
+      }
+      
+      event.date = parsedDate.toISOString();
+    } catch (error) {
+      console.log(`⚠️ Error parsing date: "${event.date}", using current date`);
+      event.date = new Date().toISOString();
+    }
   }
 
+  console.log('📝 Parsed event:', event);
   return event;
 };
 
@@ -110,10 +145,10 @@ router.post('/webhook', async (req, res) => {
       // Parse event data from caption
       const eventData = parseEventFromText(captionText);
       
-      // If no title, send error (but don't block the webhook)
+      // If no title, send error
       if (!eventData.title) {
         await sendTelegramMessage(
-          `❌ <b>Invalid Event Format</b>\n\nPlease include event details in the caption.\n\n<b>Format:</b>\nNEW EVENT\nTitle: Event Name\nDescription: Event description\nDate: 2026-03-15\nLocation: City, Country\nCategory: Event`,
+          `❌ <b>Invalid Event Format</b>\n\nPlease include event details in the caption.\n\n<b>Example:</b>\nNEW EVENT\nTitle: Event Name\nDescription: Event description\nDate: 2026-03-15\nLocation: City, Country\nCategory: Event\n\n📅 <b>Date formats accepted:</b>\n• 2026-03-15 (YYYY-MM-DD)\n• 15-03-2026 (DD-MM-YYYY)`,
           chatId
         );
         return res.sendStatus(200);
@@ -199,7 +234,7 @@ router.post('/webhook', async (req, res) => {
     // /help or /start
     if (text === '/help' || text === '/start') {
       await sendTelegramMessage(
-        `🤖 <b>Habib Solvex Bot</b>\n\n<i>To create an event:</i>\nSend:\n<b>NEW EVENT</b>\nTitle: Event Name\nDescription: Event description\nDate: 2026-03-15\nLocation: City, Country\nCategory: Event\n\n<i>Commands:</i>\n/events - View all events\n/help - Show this message`,
+        `🤖 <b>Habib Solvex Bot</b>\n\n<i>To create an event:</i>\nSend:\n<b>NEW EVENT</b>\nTitle: Event Name\nDescription: Event description\nDate: 2026-03-15\nLocation: City, Country\nCategory: Event\n\n📅 <b>Date formats accepted:</b>\n• 2026-03-15 (YYYY-MM-DD)\n• 15-03-2026 (DD-MM-YYYY)\n\n<i>Commands:</i>\n/events - View all events\n/help - Show this message`,
         chatId
       );
       return res.sendStatus(200);
@@ -243,7 +278,7 @@ router.post('/webhook', async (req, res) => {
         const event = await Event.create({
           title: eventData.title,
           description: eventData.description,
-          date: new Date(eventData.date),
+          date: new Date(eventData.date) || new Date(),
           location: eventData.location,
           category: eventData.category,
           images: [],
@@ -257,7 +292,7 @@ router.post('/webhook', async (req, res) => {
         );
       } else {
         await sendTelegramMessage(
-          `❌ <b>Invalid format</b>\n\nUse:\n/event Title | Description | Date | Location | Category`,
+          `❌ <b>Invalid format</b>\n\nUse:\n/event Title | Description | Date | Location | Category\n\n📅 <b>Date format:</b> 2026-03-15 or 15-03-2026`,
           chatId
         );
       }
@@ -270,7 +305,7 @@ router.post('/webhook', async (req, res) => {
       
       if (!eventData.title) {
         await sendTelegramMessage(
-          `❌ <b>Invalid Event Format</b>\n\nPlease send:\nNEW EVENT\nTitle: Event Name\nDescription: Event description\nDate: 2026-03-15\nLocation: City, Country\nCategory: Event`,
+          `❌ <b>Invalid Event Format</b>\n\nPlease send:\nNEW EVENT\nTitle: Event Name\nDescription: Event description\nDate: 2026-03-15\nLocation: City, Country\nCategory: Event\n\n📅 <b>Date formats accepted:</b>\n• 2026-03-15 (YYYY-MM-DD)\n• 15-03-2026 (DD-MM-YYYY)`,
           chatId
         );
         return res.sendStatus(200);
@@ -295,10 +330,30 @@ router.post('/webhook', async (req, res) => {
       return res.sendStatus(200);
     }
 
+    // Unknown message
+    if (text.startsWith('/')) {
+      await sendTelegramMessage(`❌ Unknown command. Send /help for options.`, chatId);
+    }
+
     res.sendStatus(200);
 
   } catch (error) {
     console.error('❌ Telegram webhook error:', error);
+    console.error('❌ Stack:', error.stack);
+    
+    // Send error message to user
+    try {
+      const chatId = req.body?.message?.chat?.id;
+      if (chatId) {
+        await sendTelegramMessage(
+          `❌ <b>Error creating event</b>\n\n${error.message}\n\nPlease try again with the correct format.`,
+          chatId
+        );
+      }
+    } catch (e) {
+      console.error('❌ Failed to send error message:', e);
+    }
+    
     res.sendStatus(500);
   }
 });
