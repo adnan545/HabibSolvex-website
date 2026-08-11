@@ -1,6 +1,4 @@
 const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
 
 const botToken = process.env.TELEGRAM_BOT_TOKEN;
 const chatId = process.env.TELEGRAM_CHAT_ID;
@@ -29,7 +27,7 @@ const sendTelegramMessage = async (message, options = {}) => {
   }
 };
 
-// ===== DOWNLOAD IMAGE AND CONVERT TO BASE64 =====
+// ===== DOWNLOAD IMAGE AS BASE64 =====
 const downloadImageAsBase64 = async (fileId) => {
   try {
     if (!botToken) {
@@ -37,12 +35,20 @@ const downloadImageAsBase64 = async (fileId) => {
       return null;
     }
 
+    console.log(`📷 Downloading image: ${fileId}`);
+
     // Get file path from Telegram
     const fileResponse = await axios.get(
       `https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`
     );
     
+    if (!fileResponse.data.ok) {
+      console.log('❌ Telegram file response error:', fileResponse.data);
+      return null;
+    }
+    
     const filePath = fileResponse.data.result.file_path;
+    console.log(`📷 File path: ${filePath}`);
     
     // Download the file as buffer
     const fileUrl = `https://api.telegram.org/file/bot${botToken}/${filePath}`;
@@ -67,11 +73,17 @@ const downloadImageAsBase64 = async (fileId) => {
     };
     const mimeType = mimeTypes[ext] || 'image/jpeg';
     
-    // Return as data URL
-    return `data:${mimeType};base64,${base64Image}`;
+    const dataUrl = `data:${mimeType};base64,${base64Image}`;
+    console.log(`✅ Image downloaded: ${dataUrl.length} characters`);
+    
+    return dataUrl;
     
   } catch (error) {
     console.error('❌ Image download error:', error.message);
+    if (error.response) {
+      console.error('❌ Response status:', error.response.status);
+      console.error('❌ Response data:', error.response.data);
+    }
     return null;
   }
 };
