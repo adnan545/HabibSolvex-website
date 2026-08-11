@@ -1,5 +1,35 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/login",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/register",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/admin",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }

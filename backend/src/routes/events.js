@@ -21,7 +21,7 @@ const formatEventMessage = (data) => {
 ${description}
 
 ━━━━━━━━━━━━━━━━━━━━━━
-🔗 View on website: ${process.env.CLIENT_URL || 'https://habib-solvex-website.vercel.app'}/events
+🔗 View on website: ${process.env.CLIENT_URL || 'http://localhost:5173'}/events
 🕐 ${new Date().toLocaleString('en-IN')}
   `;
 };
@@ -54,57 +54,59 @@ router.get('/admin', async (req, res) => {
   }
 });
 
-// Backward-compatible alias for admin list endpoint.
-router.get('/all', async (req, res) => {
-  try {
-    const events = await Event.find().sort({ createdAt: -1 });
-    res.json({ success: true, data: events });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-});
-
+// ===== CREATE EVENT =====
 const createEventHandler = async (req, res) => {
   try {
+    console.log('📝 Creating event...');
+    console.log('📝 Request body:', req.body);
+    console.log('📝 Files:', req.files);
+
     const { title, description, date, location, category } = req.body;
 
+    // Validate required fields
     if (!title || !description) {
+      console.log('❌ Missing required fields');
       return res.status(400).json({
         success: false,
         message: 'Title and description are required'
       });
     }
 
-    console.log('📝 Creating event:', { title, description, date, location, category });
+    // Process images
+    let images = [];
+    if (req.files && req.files.images) {
+      images = req.files.images.map(file => `/uploads/${file.filename}`);
+    }
 
-    const images = req.files?.images
-      ? req.files.images.map(file => `/uploads/${file.filename}`)
-      : [];
+    let files = [];
+    if (req.files && req.files.files) {
+      files = req.files.files.map(file => `/uploads/${file.filename}`);
+    }
 
-    const files = req.files?.files
-      ? req.files.files.map(file => `/uploads/${file.filename}`)
-      : [];
-
-    const event = await Event.create({
-      title,
-      description,
-      date: date || new Date(),
-      location,
+    const eventData = {
+      title: title.trim(),
+      description: description.trim(),
+      date: date ? new Date(date) : new Date(),
+      location: location ? location.trim() : null,
       category: category || 'Event',
       images,
       files,
       isPublished: true
-    });
+    };
 
+    console.log('📝 Event data:', eventData);
+
+    const event = await Event.create(eventData);
     console.log(`✅ Event created: ${event._id}`);
 
+    // Send Telegram notification
     try {
       const telegramMessage = formatEventMessage({
-        title,
-        description,
-        date,
-        location,
-        category
+        title: event.title,
+        description: event.description,
+        date: event.date,
+        location: event.location,
+        category: event.category
       });
       await sendTelegramMessage(telegramMessage);
       console.log('📱 Telegram notification sent');
@@ -112,21 +114,22 @@ const createEventHandler = async (req, res) => {
       console.error('⚠️ Telegram error:', telegramError.message);
     }
 
-    return res.status(201).json({
+    res.status(201).json({
       success: true,
       message: 'Event created successfully!',
       data: event
     });
+
   } catch (error) {
     console.error('❌ Event creation error:', error);
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: error.message || 'Failed to create event'
     });
   }
 };
 
-// ===== CREATE EVENT =====
+// Mount the create handler
 router.post(
   '/create',
   upload.fields([
@@ -136,7 +139,7 @@ router.post(
   createEventHandler
 );
 
-// Backward-compatible alias for REST-style event creation.
+// Backward-compatible alias
 router.post(
   '/',
   upload.fields([
@@ -146,7 +149,8 @@ router.post(
   createEventHandler
 );
 
-const updateEventHandler = async (req, res) => {
+// ===== UPDATE EVENT =====
+router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
@@ -166,15 +170,10 @@ const updateEventHandler = async (req, res) => {
     console.error('❌ Update error:', error);
     res.status(500).json({ success: false, message: error.message });
   }
-};
+});
 
-// ===== UPDATE EVENT =====
-router.put('/:id', updateEventHandler);
-
-// Backward-compatible alias for update.
-router.put('/update/:id', updateEventHandler);
-
-const deleteEventHandler = async (req, res) => {
+// ===== DELETE EVENT =====
+router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     console.log(`🗑️ Deleting event: ${id}`);
@@ -190,15 +189,10 @@ const deleteEventHandler = async (req, res) => {
     console.error('❌ Delete error:', error);
     res.status(500).json({ success: false, message: error.message });
   }
-};
+});
 
-// ===== DELETE EVENT =====
-router.delete('/:id', deleteEventHandler);
-
-// Backward-compatible alias for delete.
-router.delete('/delete/:id', deleteEventHandler);
-
-const toggleEventHandler = async (req, res) => {
+// ===== TOGGLE PUBLISH STATUS =====
+router.patch('/:id/toggle', async (req, res) => {
   try {
     const { id } = req.params;
     console.log(`🔄 Toggling event status: ${id}`);
@@ -215,12 +209,6 @@ const toggleEventHandler = async (req, res) => {
     console.error('❌ Toggle error:', error);
     res.status(500).json({ success: false, message: error.message });
   }
-};
-
-// ===== TOGGLE PUBLISH STATUS =====
-router.patch('/:id/toggle', toggleEventHandler);
-
-// Backward-compatible alias for toggle.
-router.patch('/toggle/:id', toggleEventHandler);
+});
 
 module.exports = router;

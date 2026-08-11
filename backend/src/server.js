@@ -65,12 +65,12 @@ app.get('/', (req, res) => {
       health: '/api/health',
       auth: '/api/auth',
       contact: '/api/contact',
-      events: '/api/events'
+      events: '/api/events',
+      telegram: '/api/telegram'
     }
   });
 });
 
-// ✅ ADD THIS - API root route
 app.get('/api', (req, res) => {
   res.json({
     success: true,
@@ -80,7 +80,8 @@ app.get('/api', (req, res) => {
       health: '/api/health',
       auth: '/api/auth',
       contact: '/api/contact',
-      events: '/api/events'
+      events: '/api/events',
+      telegram: '/api/telegram'
     },
     timestamp: new Date().toISOString()
   });
@@ -97,16 +98,19 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// ===== ROUTES =====
+// ===== ROUTES - IMPORT ONCE =====
 const authRoutes = require('./routes/auth');
 const contactRoutes = require('./routes/contact');
 const eventRoutes = require('./routes/events');
+const telegramRoutes = require('./routes/telegram');
 
+// ===== MOUNT ROUTES - API PREFIX =====
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/telegram', telegramRoutes);
 
-// Backward-compatible aliases for clients still calling non-/api routes.
+// ===== BACKWARD-COMPATIBLE ALIASES =====
 app.use('/auth', authRoutes);
 app.use('/contact', contactRoutes);
 app.use('/events', eventRoutes);
@@ -126,7 +130,6 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   console.error('❌ Server Error:', err);
 
-  // Handle malformed JSON payloads from clients/tools explicitly.
   if (err.type === 'entity.parse.failed' || err instanceof SyntaxError) {
     return res.status(400).json({
       success: false,
@@ -151,9 +154,11 @@ app.listen(PORT, () => {
   console.log(`🔗 Client URL: ${process.env.CLIENT_URL || 'not set'}`);
   console.log(`✅ CORS enabled`);
   console.log('📋 Registered Routes:');
-console.log('  GET /api/events');
-console.log('  GET /api/events/admin');
-console.log('  POST /api/events/create');
-console.log('  GET /api/contact/submissions');
-console.log('  PATCH /api/contact/:id/status');
+  console.log('  GET /api/health');
+  console.log('  GET /api/events');
+  console.log('  GET /api/events/admin');
+  console.log('  POST /api/events/create');
+  console.log('  GET /api/contact/submissions');
+  console.log('  PATCH /api/contact/:id/status');
+  console.log('  POST /api/telegram/webhook');
 });
