@@ -3,6 +3,9 @@ const axios = require('axios');
 const botToken = process.env.TELEGRAM_BOT_TOKEN;
 const chatId = process.env.TELEGRAM_CHAT_ID;
 
+console.log(`🤖 Bot Token: ${botToken ? '✅ Set' : '❌ Missing'}`);
+console.log(`📱 Chat ID: ${chatId ? '✅ Set' : '❌ Missing'}`);
+
 // Send message
 const sendTelegramMessage = async (message, options = {}) => {
   if (!botToken || !chatId) {
@@ -19,7 +22,7 @@ const sendTelegramMessage = async (message, options = {}) => {
       ...options
     });
     
-    console.log('✅ Telegram message sent:', response.data.result?.message_id);
+    console.log('✅ Telegram message sent');
     return { success: true, result: response.data };
   } catch (error) {
     console.error('❌ Telegram send error:', error.response?.data || error.message);
@@ -27,8 +30,8 @@ const sendTelegramMessage = async (message, options = {}) => {
   }
 };
 
-// ===== DOWNLOAD IMAGE AS BASE64 =====
-const downloadImageAsBase64 = async (fileId) => {
+// ===== DOWNLOAD IMAGE AS BASE64 (WITH RETRY) =====
+const downloadImageAsBase64 = async (fileId, retries = 3) => {
   try {
     if (!botToken) {
       console.log('⚠️ No bot token for image download');
@@ -39,7 +42,8 @@ const downloadImageAsBase64 = async (fileId) => {
 
     // Get file path from Telegram
     const fileResponse = await axios.get(
-      `https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`
+      `https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`,
+      { timeout: 10000 }
     );
     
     if (!fileResponse.data.ok) {
@@ -55,13 +59,14 @@ const downloadImageAsBase64 = async (fileId) => {
     const response = await axios({
       method: 'get',
       url: fileUrl,
-      responseType: 'arraybuffer'
+      responseType: 'arraybuffer',
+      timeout: 15000
     });
 
     // Convert to Base64
     const base64Image = Buffer.from(response.data, 'binary').toString('base64');
     
-    // Determine MIME type from file extension
+    // Determine MIME type
     const ext = filePath.split('.').pop().toLowerCase();
     const mimeTypes = {
       jpg: 'image/jpeg',
@@ -74,18 +79,27 @@ const downloadImageAsBase64 = async (fileId) => {
     const mimeType = mimeTypes[ext] || 'image/jpeg';
     
     const dataUrl = `data:${mimeType};base64,${base64Image}`;
-    console.log(`✅ Image downloaded: ${dataUrl.length} characters`);
+    console.log(`✅ Image downloaded: ${(dataUrl.length / 1024).toFixed(1)} KB`);
     
     return dataUrl;
     
   } catch (error) {
-    console.error('❌ Image download error:', error.message);
-    if (error.response) {
-      console.error('❌ Response status:', error.response.status);
-      console.error('❌ Response data:', error.response.data);
+    console.error(`❌ Image download error (attempt ${4 - retries}/3):`, error.message);
+    
+    if (retries > 1) {
+      console.log(`⏳ Retrying download...`);
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      return downloadImageAsBase64(fileId, retries - 1);
     }
+    
     return null;
   }
 };
 
-module.exports = { sendTelegramMessage, downloadImageAsBase64 };
+// ===== SAVE IMAGE TO MONGODB =====
+const saveImageToMongoDB = async (base64Image) => {
+  if (!base64Image) return null;
+  return base64Image;
+};
+
+module.exports = { sendTelegramMessage, downloadImageAsBase64, saveImageToMongoDB };

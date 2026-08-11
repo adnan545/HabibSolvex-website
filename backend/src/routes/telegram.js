@@ -5,7 +5,7 @@ const { sendTelegramMessage, downloadImageAsBase64 } = require('../services/tele
 
 // Temporary storage for image groups
 const imageGroups = {};
-const GROUP_TIMEOUT = 10000;
+const GROUP_TIMEOUT = 15000;
 
 // ===== PARSE EVENT FROM TEXT =====
 const parseEventFromText = (text) => {
@@ -107,67 +107,10 @@ router.post('/webhook', async (req, res) => {
       const captionText = body.message.caption || '';
       const mediaGroupId = body.message.media_group_id;
       
-      // Download image as Base64
-      console.log('📥 Downloading image as Base64...');
-      const base64Image = await downloadImageAsBase64(fileId);
-      
-      if (!base64Image) {
-        console.log('❌ Failed to download image. Creating event without image.');
-        // Fallback: Create event without image
-        const eventData = parseEventFromText(captionText);
-        if (eventData.title) {
-          const event = await Event.create({
-            title: eventData.title,
-            description: eventData.description || 'Event from Telegram',
-            date: new Date(eventData.date) || new Date(),
-            location: eventData.location || 'TBD',
-            category: eventData.category || 'Event',
-            images: [],
-            files: [],
-            isPublished: true
-          });
-          await sendTelegramMessage(
-            `✅ <b>EVENT CREATED!</b>\n\n📌 ${event.title}\n📅 ${new Date(event.date).toLocaleDateString('en-IN')}\n📍 ${event.location}\n🖼️ Image: ❌ Could not download image\n\n🔗 <a href="${process.env.CLIENT_URL || 'https://habib-solvex-website.vercel.app'}/events">View on Website →</a>`,
-            chatId
-          );
-        }
-        return res.sendStatus(200);
-      }
-      
-      if (mediaGroupId) {
-        console.log(`📷 Adding to group: ${mediaGroupId}`);
-        
-        if (!imageGroups[mediaGroupId]) {
-          imageGroups[mediaGroupId] = {
-            images: [],
-            caption: captionText,
-            chatId: chatId,
-            from: from,
-            createdAt: Date.now()
-          };
-        }
-        
-        imageGroups[mediaGroupId].images.push(base64Image);
-        
-        if (captionText && !imageGroups[mediaGroupId].eventData) {
-          const eventData = parseEventFromText(captionText);
-          if (eventData.title) {
-            imageGroups[mediaGroupId].eventData = eventData;
-          }
-        }
-        
-        if (!imageGroups[mediaGroupId].timer) {
-          imageGroups[mediaGroupId].timer = setTimeout(async () => {
-            await processImageGroup(mediaGroupId);
-          }, GROUP_TIMEOUT);
-        }
-        
-        return res.sendStatus(200);
-      }
-      
-      // ===== SINGLE IMAGE =====
+      // Parse event data from caption
       const eventData = parseEventFromText(captionText);
       
+      // If no title, send error (but don't block the webhook)
       if (!eventData.title) {
         await sendTelegramMessage(
           `❌ <b>Invalid Event Format</b>\n\nPlease include event details in the caption.\n\n<b>Format:</b>\nNEW EVENT\nTitle: Event Name\nDescription: Event description\nDate: 2026-03-15\nLocation: City, Country\nCategory: Event`,
@@ -176,7 +119,57 @@ router.post('/webhook', async (req, res) => {
         return res.sendStatus(200);
       }
 
-      // Create event with Base64 image
+      // ===== DOWNLOAD IMAGE =====
+      console.log('📥 Downloading image as Base64...');
+      const base64Image = await downloadImageAsBase64(fileId);
+      
+      // If image download fails, create event without image
+      if (!base64Image) {
+        console.log('⚠️ Image download failed. Creating event without image.');
+        const event = await Event.create({
+          title: eventData.title,
+          description: eventData.description || 'Event from Telegram',
+          date: new Date(eventData.date) || new Date(),
+          location: eventData.location || 'TBD',
+          category: eventData.category || 'Event',
+          images: [],
+          files: [],
+          isPublished: true
+        });
+        await sendTelegramMessage(
+          `✅ <b>EVENT CREATED!</b>\n━━━━━━━━━━━━━━━━━━━━━━\n\n📌 <b>Title:</b> ${event.title}\n📂 <b>Category:</b> ${event.category}\n📅 <b>Date:</b> ${new Date(event.date).toLocaleDateString('en-IN')}\n📍 <b>Location:</b> ${event.location || 'TBD'}\n🖼️ <b>Image:</b> ❌ Could not download image\n\n🔗 <a href="${process.env.CLIENT_URL || 'https://habib-solvex-website.vercel.app'}/events">View on Website →</a>`,
+          chatId
+        );
+        return res.sendStatus(200);
+      }
+      
+      // ===== MULTIPLE IMAGES (GROUP) =====
+      if (mediaGroupId) {
+        console.log(`📷 Adding to group: ${mediaGroupId}`);
+        
+        if (!imageGroups[mediaGroupId]) {
+          imageGroups[mediaGroupId] = {
+            images: [],
+            eventData: eventData,
+            chatId: chatId,
+            from: from,
+            createdAt: Date.now()
+          };
+        }
+        
+        imageGroups[mediaGroupId].images.push(base64Image);
+        
+        if (!imageGroups[mediaGroupId].timer) {
+          imageGroups[mediaGroupId].timer = setTimeout(async () => {
+            await processImageGroup(mediaGroupId);
+          }, GROUP_TIMEOUT);
+          console.log(`⏰ Timer set for group: ${mediaGroupId}`);
+        }
+        
+        return res.sendStatus(200);
+      }
+      
+      // ===== SINGLE IMAGE =====
       const event = await Event.create({
         title: eventData.title,
         description: eventData.description || 'Event from Telegram',
@@ -295,23 +288,17 @@ router.post('/webhook', async (req, res) => {
       });
 
       await sendTelegramMessage(
-        `✅ <b>EVENT CREATED!</b>\n━━━━━━━━━━━━━━━━━━━━━━\n\n📌 <b>Title:</b> ${event.title}\n📂 <b>Category:</b> ${event.category}\n📅 <b>Date:</b> ${new Date(event.date).toLocaleDateString('en-IN')}\n📍 <b>Location:</b> ${event.location || 'TBD'}\n🖼️ <b>Image:</b> ❌ No image\n\n🔗 <a href="${process.env.CLIENT_URL || 'https://habib-solvex-website.vercel.app'}/events">View on Website →</a>`,
+        `✅ <b>EVENT CREATED!</b>\n━━━━━━━━━━━━━━━━━━━━━━\n\n📌 <b>Title:</b> ${event.title}\n📂 <b>Category:</b> ${event.category}\n📅 <b>Date:</b> ${new Date(event.date).toLocaleDateString('en-IN')}\n📍 <b>Location:</b> ${event.location || 'TBD'}\n\n🔗 <a href="${process.env.CLIENT_URL || 'https://habib-solvex-website.vercel.app'}/events">View on Website →</a>`,
         chatId
       );
 
       return res.sendStatus(200);
     }
 
-    // Unknown message
-    if (text.startsWith('/')) {
-      await sendTelegramMessage(`❌ Unknown command. Send /help for options.`, chatId);
-    }
-
     res.sendStatus(200);
 
   } catch (error) {
     console.error('❌ Telegram webhook error:', error);
-    console.error('❌ Stack:', error.stack);
     res.sendStatus(500);
   }
 });
