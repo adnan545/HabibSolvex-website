@@ -6,6 +6,23 @@ import {
   FaUndo, FaPaperPlane, FaWhatsapp, FaPhone, FaEnvelope 
 } from 'react-icons/fa';
 
+
+// Import images for products
+import sunflowerBenifitImg from '../../assets/images/products/sunflower_oil_benifits.jpg';
+import sunflowerManufactureImg from '../../assets/images/products/sunflower_oil_manufacture.jpg';
+import sunflowerWhyUsImg from '../../assets/images/products/sunflowerWhyUs.webp';
+
+import soyabeanBenifitImg from '../../assets/images/products/soyabean_oil_benifits.jpg';
+import soyabeanManufactureImg from '../../assets/images/products/soyabean_oil_manufacture.jpg';
+import soyabeanWhyUsImg from '../../assets/images/products/soyabean_why_us.webp';
+
+
+import palManufactureImg from '../../assets/images/products/palm_oil_manufacture.jpg';
+import palmDetailsImg from '../../assets/images/products/palm_oil_details.jpg';
+import palBenifitImg from '../../assets/images/products/palm_oil_benifits.webp';
+
+
+
 const ProductDetail = () => {
   const { id } = useParams();
   const [activeImage, setActiveImage] = useState(0);
@@ -37,9 +54,9 @@ const ProductDetail = () => {
         '100% pure with no additives'
       ],
       images: [
-        'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=600&h=400&fit=crop&auto=format',
-        'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&h=400&fit=crop&auto=format',
-        'https://images.unsplash.com/photo-1547592180-85f173990554?w=600&h=400&fit=crop&auto=format'
+        sunflowerBenifitImg,
+        sunflowerManufactureImg,
+        sunflowerWhyUsImg
       ],
       nutritionalInfo: {
         servingSize: '100ml',
@@ -70,8 +87,9 @@ const ProductDetail = () => {
         'Neutral flavor for all cuisines'
       ],
       images: [
-        'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&h=400&fit=crop&auto=format',
-        'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=600&h=400&fit=crop&auto=format'
+        soyabeanBenifitImg,
+        soyabeanManufactureImg,
+        soyabeanWhyUsImg
       ],
       nutritionalInfo: {
         servingSize: '100ml',
@@ -102,8 +120,9 @@ const ProductDetail = () => {
         'Versatile for various applications'
       ],
       images: [
-        'https://images.unsplash.com/photo-1547592180-85f173990554?w=600&h=400&fit=crop&auto=format',
-        'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&h=400&fit=crop&auto=format'
+        palmDetailsImg,
+        palManufactureImg,
+        palBenifitImg
       ],
       nutritionalInfo: {
         servingSize: '100ml',
@@ -133,8 +152,9 @@ const ProductDetail = () => {
         'Excellent for healthy lifestyles'
       ],
       images: [
-        'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=600&h=400&fit=crop&auto=format',
-        'https://images.unsplash.com/photo-1547592180-85f173990554?w=600&h=400&fit=crop&auto=format'
+        sunflowerBenifitImg,
+        sunflowerManufactureImg,
+        sunflowerWhyUsImg
       ],
       nutritionalInfo: {
         servingSize: '100ml',
@@ -165,8 +185,9 @@ const ProductDetail = () => {
         'Excellent for pickling'
       ],
       images: [
-        'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&h=400&fit=crop&auto=format',
-        'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=600&h=400&fit=crop&auto=format'
+        sunflowerBenifitImg,
+        sunflowerManufactureImg,
+        sunflowerWhyUsImg
       ],
       nutritionalInfo: {
         servingSize: '100ml',
@@ -196,8 +217,9 @@ const ProductDetail = () => {
         'Technical specifications met'
       ],
       images: [
-        'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=600&h=400&fit=crop&auto=format',
-        'https://images.unsplash.com/photo-1547592180-85f173990554?w=600&h=400&fit=crop&auto=format'
+        sunflowerBenifitImg,
+        sunflowerManufactureImg,
+        sunflowerWhyUsImg
       ],
       nutritionalInfo: {
         servingSize: 'N/A',

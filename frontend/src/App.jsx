@@ -18,6 +18,8 @@ import ManufacturingQuality from './components/Pages/ManufacturingQuality';
 import Events from './components/Pages/Events';
 import Contact from './components/Pages/Contact';
 import CompanyProfileManager from './components/Pages/Admin/CompanyProfileManager';
+import ManageProducts from './components/Pages/Admin/ManageProducts';
+
 
 
 // Auth
@@ -59,6 +61,7 @@ function App() {
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/upload" element={<UploadEvent />} />
             <Route path="/admin/company-profile" element={<CompanyProfileManager />} />
+            <Route path="/admin/products" element={<ManageProducts />} />
           </Routes>
         </main>
         <Footer />
