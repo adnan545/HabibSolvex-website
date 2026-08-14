@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { useEffect } from 'react';
 
+
 // Layout
 import Navbar from './components/Layout/Navbar';
 import Footer from './components/Layout/Footer';
@@ -16,6 +17,8 @@ import ProductDetail from './components/Pages/ProductDetail';
 import ManufacturingQuality from './components/Pages/ManufacturingQuality';
 import Events from './components/Pages/Events';
 import Contact from './components/Pages/Contact';
+import CompanyProfileManager from './components/Pages/Admin/CompanyProfileManager';
+
 
 // Auth
 import Login from './components/Auth/Login';
@@ -55,6 +58,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/upload" element={<UploadEvent />} />
+            <Route path="/admin/company-profile" element={<CompanyProfileManager />} />
           </Routes>
         </main>
         <Footer />

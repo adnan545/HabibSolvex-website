@@ -4,6 +4,8 @@ import { FaPlus, FaTrash, FaToggleOn, FaToggleOff, FaEye, FaCheck, FaClock, FaAr
 import toast from 'react-hot-toast';
 import { useAuth } from '../../../context/AuthContext';
 import api from '../../../api/axios';
+import CompanyProfileManager from './CompanyProfileManager';
+
 
 const Dashboard = () => {
   const { isAdmin, loading: authLoading } = useAuth();
@@ -282,7 +284,7 @@ const Dashboard = () => {
           <FaPlus /> Upload New Event
         </Link>
       </div>
-
+      
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
         <div className="bg-white p-4 md:p-6 rounded-2xl shadow-lg border border-[#e0f0ed]">
@@ -649,8 +651,13 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+        
       )}
+      <div className="mt-8">
+  <CompanyProfileManager />
+</div>
     </div>
+    
   );
 };
 

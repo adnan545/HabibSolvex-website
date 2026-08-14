@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaEye, FaBullseye, FaHandshake, FaIndustry, FaMapMarkerAlt, FaWarehouse } from 'react-icons/fa';
+import { 
+  FaEye, FaBullseye, FaHandshake, FaIndustry, FaMapMarkerAlt, FaWarehouse,
+  FaFilePdf, FaDownload, FaCalendarAlt
+} from 'react-icons/fa';
+import api from '../../api/axios';
 
 const About = () => {
+  const [companyProfile, setCompanyProfile] = useState(null);
+  const [loadingProfile, setLoadingProfile] = useState(true);
+
   const timeline = [
     { year: '2014', title: 'Founded', desc: 'Started operations in Hiriyur, Karnataka' },
     { year: '2016', title: 'First Export', desc: 'Expanded to international markets' },
@@ -16,43 +23,107 @@ const About = () => {
     { initials: 'MK', name: 'Mudassir Khan', role: 'Director' }
   ];
 
+  useEffect(() => {
+    fetchCompanyProfile();
+  }, []);
+
+  const fetchCompanyProfile = async () => {
+    try {
+      const response = await api.get('/company-profile');
+      if (response.data.success) {
+        setCompanyProfile(response.data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching company profile:', error);
+    } finally {
+      setLoadingProfile(false);
+    }
+  };
+
+  const handleDownload = async () => {
+    if (!companyProfile) return;
+    
+    try {
+      await api.post(`/company-profile/${companyProfile._id}/download`);
+      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const rootUrl = baseUrl.replace(/\/api$/, '');
+      window.open(`${rootUrl}${companyProfile.pdfUrl}`, '_blank');
+    } catch (error) {
+      console.error('Download error:', error);
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 md:px-8 py-8">
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-[#f0f3f2] to-[#e4eae8] rounded-[32px] p-8 md:p-16 mt-4 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-        <div>
-          {/* <span className="badge"><i className="fas fa-info-circle"></i> About Us</span> */}
-          <h1 className="text-3xl md:text-5xl font-bold text-[#1a4d46] mt-3">
-            About <span className="text-[#2d7d6b]">Habib Solvex</span>
-          </h1>
-          <p className="text-[#5a6b7a] mt-3">
-            Habib Solvex is committed to delivering reliable, high-quality solutions with a strong focus on innovation, 
-            integrity, and customer satisfaction. We believe in building lasting relationships by providing dependable 
-            services tailored to the unique needs of every client.
-          </p>
-          <div className="flex flex-wrap gap-3 mt-4">
-            <span className="badge">Since 2014</span>
-            <span className="badge">ISO 22000</span>
-            <span className="badge">FSSAI</span>
-            <span className="badge">Export 40+ Countries</span>
+      {/* ===== HERO SECTION WITH COMPANY PROFILE ===== */}
+      <section className="bg-gradient-to-br from-[#f0f3f2] to-[#e4eae8] rounded-[32px] p-8 md:p-16 mt-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          {/* Left Side - Content */}
+          <div>
+            <h1 className="text-3xl md:text-5xl font-bold text-[#1a4d46]">
+              About <span className="text-[#2d7d6b]">Habib Solvex</span>
+            </h1>
+            <p className="text-[#5a6b7a] mt-3 leading-relaxed">
+              Habib Solvex is committed to delivering reliable, high-quality solutions with a strong focus on innovation, 
+              integrity, and customer satisfaction. We believe in building lasting relationships by providing dependable 
+              services tailored to the unique needs of every client.
+            </p>
+
+            {/* ===== COMPANY PROFILE IN HERO - WITH VIEW PDF LINK ===== */}
+            {!loadingProfile && companyProfile ? (
+              <div className="mt-3 bg-white/80 backdrop-blur-sm rounded-lg p-2 border border-[#2d7d6b] shadow-sm inline-block">
+                <div className="flex items-center gap-2">
+                  {/* Icon */}
+                  <div className="w-7 h-7 bg-[#1a4d46] rounded-md flex items-center justify-center text-white text-[10px] flex-shrink-0">
+                    <FaFilePdf />
+                  </div>
+                  
+                  {/* Title */}
+                  <h4 className="text-[11px] font-semibold text-[#1a4d46] leading-tight">
+                    {companyProfile.title}
+                  </h4>
+                  
+                  {/* View PDF Link */}
+                  <button
+                    onClick={handleDownload}
+                    className="text-[#2d7d6b] text-[10px] font-medium hover:text-[#1a4d46] hover:underline transition-colors flex items-center gap-1"
+                  >
+                    <FaDownload className="text-[8px]" />
+                    View PDF
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="mt-3 bg-white/80 backdrop-blur-sm rounded-lg p-2 border border-[#e0f0ed] inline-block">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 bg-[#e0f0ed] rounded-md flex items-center justify-center text-[#5a6b7a] text-[10px]">
+                    <FaFilePdf />
+                  </div>
+                  <div>
+                    <h4 className="text-[11px] font-semibold text-[#1a4d46]">Company Profile</h4>
+                    <p className="text-[#5a6b7a] text-[8px]">No profile uploaded</p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
-        
-        {/* Right Side - Image */}
-        <div className="relative">
-          <img 
-            src="https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=600&h=400&fit=crop&auto=format" 
-            alt="Habib Solvex Manufacturing"
-            className="w-full rounded-2xl shadow-xl object-cover h-64 lg:h-72"
-          />
-          <div className="absolute -bottom-4 -right-4 bg-[#1a4d46] text-white text-sm px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
-            <span className="inline-block w-2 h-2 bg-[#2d7d6b] rounded-full animate-pulse"></span>
-            Manufacturing Excellence
+          
+          {/* Right Side - Image */}
+          <div className="relative">
+            <img 
+              src="https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=600&h=400&fit=crop&auto=format" 
+              alt="Habib Solvex Manufacturing"
+              className="w-full rounded-2xl shadow-xl object-cover h-64 lg:h-72"
+            />
+            <div className="absolute -bottom-4 -right-4 bg-[#1a4d46] text-white text-sm px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
+              <span className="inline-block w-2 h-2 bg-[#2d7d6b] rounded-full animate-pulse"></span>
+              Manufacturing Excellence
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Company Banner */}
+      {/* ===== COMPANY BANNER ===== */}
       <div className="bg-gradient-to-br from-[#f0f3f2] to-[#e4eae8] rounded-2xl p-6 md:p-8 my-8 flex flex-wrap items-center justify-between gap-4">
         <div>
           <h3 className="text-xl font-bold text-[#1a4d46]">Habib Solvex Pvt. Ltd.</h3>
@@ -64,7 +135,23 @@ const About = () => {
         <span className="badge"><i className="fas fa-calendar"></i> Since 2014</span>
       </div>
 
-      {/* Vision & Mission */}
+      {/* ===== COMPANY DESCRIPTION ===== */}
+      <div className="my-8">
+        <h2 className="text-2xl md:text-3xl font-bold text-[#1a4d46] mb-3">Our Journey</h2>
+        <p className="text-[#5a6b7a] leading-relaxed">
+          Habib Solvex is a premier edible oil manufacturing company dedicated to delivering pure, healthy, and high-quality 
+          oils to customers worldwide. With a strong focus on innovation and sustainability, we have established ourselves 
+          as a trusted name in the industry. Our state-of-the-art manufacturing facility in Hiriyur, Karnataka, produces 
+          over 500 metric tons of premium edible oils daily, serving clients across 40+ countries.
+        </p>
+        <p className="text-[#5a6b7a] leading-relaxed mt-3">
+          We are committed to maintaining the highest standards of quality and food safety, backed by ISO 22000 and FSSAI 
+          certifications. Our journey, which began in 2014, is driven by a passion for excellence and a dedication to 
+          nourishing lives with pure, natural edible oils.
+        </p>
+      </div>
+
+      {/* ===== VISION & MISSION ===== */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -106,7 +193,7 @@ const About = () => {
         </motion.div>
       </section>
 
-      {/* Leadership */}
+      {/* ===== LEADERSHIP ===== */}
       <section className="my-12">
         <div className="section-header">
           <span className="badge">Leadership</span>
@@ -134,7 +221,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Timeline */}
+      {/* ===== TIMELINE ===== */}
       <section className="my-12">
         <div className="section-header">
           <span className="badge">Journey</span>
@@ -159,7 +246,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Infrastructure */}
+      {/* ===== INFRASTRUCTURE ===== */}
       <section className="my-12">
         <div className="section-header">
           <span className="badge">Infrastructure</span>

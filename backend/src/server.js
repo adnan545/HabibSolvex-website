@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const companyProfileRoutes = require('./routes/companyProfile');
 
 dotenv.config();
 
@@ -51,6 +52,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
+// ===== COMPANY PROFILE ROUTES =====
+app.use('/api/company-profile', companyProfileRoutes);
 
 // ===== ROOT ROUTES =====
 app.get('/', (req, res) => {
