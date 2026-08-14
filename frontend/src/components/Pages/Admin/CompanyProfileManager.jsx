@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
-import { FaUpload, FaTrash, FaEdit, FaDownload, FaEye, FaFilePdf, FaCheck, FaTimes } from 'react-icons/fa';
+import { FaUpload, FaTrash, FaEdit, FaEye, FaFilePdf, FaCheck, FaTimes, FaDownload } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import api from '../../../api/axios';
 
@@ -106,6 +106,15 @@ const CompanyProfileManager = () => {
     }
   };
 
+  const handleDownloadPDF = async (id) => {
+    try {
+      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      window.open(`${baseUrl}/company-profile/${id}/pdf`, '_blank');
+    } catch (error) {
+      toast.error('Failed to download PDF');
+    }
+  };
+
   const handleUpdateTitle = async (id, currentTitle) => {
     const newTitle = prompt('Enter new title:', currentTitle);
     if (newTitle && newTitle !== currentTitle) {
@@ -138,7 +147,8 @@ const CompanyProfileManager = () => {
       {/* Upload Form */}
       {showUploadForm && (
         <div className="bg-[#f8f6f2] rounded-xl p-6 mb-6 border border-[#e0f0ed]">
-          <h3 className="text-lg font-semibold text-[#1a4d46] mb-4">Upload New Company Profile</h3>
+          <h3 className="text-lg font-semibold text-[#1a4d46] mb-4">Upload New Company Profile (PDF)</h3>
+          <p className="text-sm text-[#5a6b7a] mb-4">📌 PDF will be stored directly in MongoDB as Base64</p>
           <form onSubmit={handleUpload}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -170,7 +180,7 @@ const CompanyProfileManager = () => {
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-semibold text-[#1a4d46] mb-1">PDF File</label>
+                <label className="block text-sm font-semibold text-[#1a4d46] mb-1">PDF File (Max 10MB)</label>
                 <input
                   type="file"
                   accept=".pdf"
@@ -179,7 +189,7 @@ const CompanyProfileManager = () => {
                   required
                 />
                 {selectedFile && (
-                  <p className="text-sm text-[#2d7d6b] mt-1">✅ Selected: {selectedFile.name}</p>
+                  <p className="text-sm text-[#2d7d6b] mt-1">✅ Selected: {selectedFile.name} ({(selectedFile.size / 1024 / 1024).toFixed(2)} MB)</p>
                 )}
               </div>
             </div>
@@ -270,22 +280,18 @@ const CompanyProfileManager = () => {
                         <FaEdit />
                       </button>
                       <button
+                        onClick={() => handleDownloadPDF(profile._id)}
+                        className="text-[#2d7d6b] hover:text-[#1a4d46] p-1.5 rounded hover:bg-[#e0f0ed]"
+                        title="Download PDF"
+                      >
+                        <FaDownload />
+                      </button>
+                      <button
                         onClick={() => handleDelete(profile._id)}
                         className="text-red-500 hover:text-red-700 p-1.5 rounded hover:bg-red-50"
                         title="Delete"
                       >
                         <FaTrash />
-                      </button>
-                      <button
-                        onClick={() => {
-                          const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-                          const rootUrl = baseUrl.replace(/\/api$/, '');
-                          window.open(`${rootUrl}${profile.pdfUrl}`, '_blank');
-                        }}
-                        className="text-[#2d7d6b] hover:text-[#1a4d46] p-1.5 rounded hover:bg-[#e0f0ed]"
-                        title="View PDF"
-                      >
-                        <FaEye />
                       </button>
                     </div>
                   </td>
@@ -294,6 +300,10 @@ const CompanyProfileManager = () => {
             )}
           </tbody>
         </table>
+      </div>
+      
+      <div className="mt-4 text-xs text-[#5a6b7a] bg-[#f8f6f2] p-3 rounded-lg">
+        <p>📌 PDFs are stored directly in MongoDB as Base64. No external file storage needed.</p>
       </div>
     </div>
   );

@@ -10,8 +10,9 @@ const CompanyProfileSchema = new mongoose.Schema({
     type: String,
     default: 'Download our complete company profile to learn more about our journey, achievements, and yearly performance.'
   },
-  pdfUrl: {
-    type: String,
+  // ===== PDF STORED AS BASE64 IN MONGODB =====
+  pdfData: {
+    type: String, // Base64 encoded PDF
     required: true
   },
   fileName: {
@@ -21,6 +22,10 @@ const CompanyProfileSchema = new mongoose.Schema({
   fileSize: {
     type: Number,
     default: 0
+  },
+  fileType: {
+    type: String,
+    default: 'application/pdf'
   },
   year: {
     type: Number,

@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const companyProfileRoutes = require('./routes/companyProfile');
-const productRoutes = require('./routes/products');
+const companyProfileRoutes = require('./routes/companyProfile');
 
 dotenv.config();
 
@@ -55,7 +55,7 @@ app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // ==== PRODUCT ROUTES =====
-app.use('/api/products', productRoutes);
+app.use('/api/company-profile', companyProfileRoutes);
 
 // ===== COMPANY PROFILE ROUTES =====
 app.use('/api/company-profile', companyProfileRoutes);

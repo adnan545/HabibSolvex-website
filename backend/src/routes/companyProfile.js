@@ -6,21 +6,8 @@ const fs = require('fs');
 const CompanyProfile = require('../models/CompanyProfile');
 const { verifyToken, isAdmin } = require('../middleware/auth');
 
-// Configure multer for PDF uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadDir = path.join(__dirname, '../../uploads/company-profiles');
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const ext = path.extname(file.originalname);
-    cb(null, `company-profile-${uniqueSuffix}${ext}`);
-  }
-});
+// Configure multer for memory storage (store in MongoDB)
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'application/pdf') {
@@ -49,12 +36,49 @@ router.get('/', async (req, res) => {
       });
     }
     
+    // Return profile without the actual PDF data for list view
+    const profileData = profile.toObject();
+    // Send PDF data as Base64 string
     res.json({
       success: true,
-      data: profile
+      data: profileData
     });
   } catch (error) {
     console.error('Error fetching company profile:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
+// ===== GET PDF DIRECTLY (For Download) =====
+router.get('/:id/pdf', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const profile = await CompanyProfile.findById(id);
+    
+    if (!profile) {
+      return res.status(404).json({
+        success: false,
+        message: 'Profile not found'
+      });
+    }
+
+    // Increment download count
+    profile.downloadCount += 1;
+    await profile.save();
+
+    // Convert Base64 to buffer
+    const pdfBuffer = Buffer.from(profile.pdfData, 'base64');
+    
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="${profile.fileName || 'company-profile.pdf'}"`);
+    res.setHeader('Content-Length', pdfBuffer.length);
+    res.send(pdfBuffer);
+    
+  } catch (error) {
+    console.error('PDF download error:', error);
     res.status(500).json({
       success: false,
       message: error.message
@@ -66,6 +90,7 @@ router.get('/', async (req, res) => {
 router.get('/admin', verifyToken, isAdmin, async (req, res) => {
   try {
     const profiles = await CompanyProfile.find()
+      .select('-pdfData') // Exclude PDF data from list view
       .sort({ createdAt: -1 });
     
     res.json({
@@ -97,6 +122,9 @@ router.post(
 
       const { title, description, year } = req.body;
       
+      // Convert PDF to Base64
+      const pdfBase64 = req.file.buffer.toString('base64');
+      
       // Unpublish old profiles
       await CompanyProfile.updateMany(
         { isPublished: true },
@@ -106,9 +134,10 @@ router.post(
       const profile = new CompanyProfile({
         title: title || 'Company Profile',
         description: description || 'Download our complete company profile to learn more about our journey, achievements, and yearly performance.',
-        pdfUrl: `/uploads/company-profiles/${req.file.filename}`,
+        pdfData: pdfBase64,
         fileName: req.file.originalname,
         fileSize: req.file.size,
+        fileType: req.file.mimetype,
         year: year || new Date().getFullYear(),
         isPublished: true,
         lastUpdated: new Date()
@@ -119,16 +148,17 @@ router.post(
       res.status(201).json({
         success: true,
         message: 'Company profile uploaded successfully!',
-        data: profile
+        data: {
+          id: profile._id,
+          title: profile.title,
+          fileName: profile.fileName,
+          fileSize: profile.fileSize,
+          year: profile.year,
+          isPublished: profile.isPublished
+        }
       });
     } catch (error) {
       console.error('Upload error:', error);
-      
-      // Clean up uploaded file if there was an error
-      if (req.file) {
-        fs.unlinkSync(req.file.path);
-      }
-      
       res.status(500).json({
         success: false,
         message: error.message
@@ -204,12 +234,6 @@ router.delete(
         });
       }
 
-      // Delete the file
-      const filePath = path.join(__dirname, '../..', profile.pdfUrl);
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-
       await profile.deleteOne();
 
       res.json({
@@ -226,7 +250,7 @@ router.delete(
   }
 );
 
-// ===== INCREMENT DOWNLOAD COUNT =====
+// ===== INCREMENT DOWNLOAD COUNT (Alternative endpoint) =====
 router.post(
   '/:id/download',
   async (req, res) => {

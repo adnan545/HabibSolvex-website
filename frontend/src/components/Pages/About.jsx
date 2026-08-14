@@ -40,18 +40,21 @@ const About = () => {
     }
   };
 
-  const handleDownload = async () => {
-    if (!companyProfile) return;
+const handleDownload = async () => {
+  if (!companyProfile) return;
+  
+  try {
+    // Increment download count
+    await api.post(`/company-profile/${companyProfile._id}/download`);
     
-    try {
-      await api.post(`/company-profile/${companyProfile._id}/download`);
-      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-      const rootUrl = baseUrl.replace(/\/api$/, '');
-      window.open(`${rootUrl}${companyProfile.pdfUrl}`, '_blank');
-    } catch (error) {
-      console.error('Download error:', error);
-    }
-  };
+    // Open the PDF directly from MongoDB
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+    window.open(`${baseUrl}/company-profile/${companyProfile._id}/pdf`, '_blank');
+  } catch (error) {
+    console.error('Download error:', error);
+    toast.error('Failed to download PDF');
+  }
+};
 
   return (
     <div className="container mx-auto px-4 md:px-8 py-8">
