@@ -6,7 +6,6 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const companyProfileRoutes = require('./routes/companyProfile');
-const companyProfileRoutes = require('./routes/companyProfile');
 
 dotenv.config();
 
