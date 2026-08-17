@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
-import { FaUpload, FaTrash, FaEdit, FaEye, FaFilePdf, FaCheck, FaTimes, FaDownload } from 'react-icons/fa';
+import { 
+  FaUpload, FaTrash, FaEdit, FaEye, FaFilePdf, 
+  FaCheck, FaTimes, FaDownload, FaExternalLinkAlt 
+} from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import api from '../../../api/axios';
 
@@ -106,11 +109,42 @@ const CompanyProfileManager = () => {
     }
   };
 
-  const handleDownloadPDF = async (id) => {
+  // ===== VIEW PDF IN BROWSER =====
+  const handleViewPDF = async (id) => {
     try {
       const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-      window.open(`${baseUrl}/company-profile/${id}/pdf`, '_blank');
+      const pdfUrl = `${baseUrl}/company-profile/${id}/pdf`;
+      
+      // Open in new tab (browser will show PDF viewer)
+      window.open(pdfUrl, '_blank');
     } catch (error) {
+      toast.error('Failed to view PDF');
+    }
+  };
+
+  // ===== DOWNLOAD PDF =====
+  const handleDownloadPDF = async (id, fileName) => {
+    try {
+      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const pdfUrl = `${baseUrl}/company-profile/${id}/pdf`;
+      
+      // Fetch the PDF as blob
+      const response = await fetch(pdfUrl);
+      const blob = await response.blob();
+      
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName || 'company-profile.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      
+      toast.success('Download started!');
+    } catch (error) {
+      console.error('Download error:', error);
       toast.error('Failed to download PDF');
     }
   };
@@ -224,7 +258,7 @@ const CompanyProfileManager = () => {
               <th className="px-4 py-3 text-left text-sm">Title</th>
               <th className="px-4 py-3 text-left text-sm">Year</th>
               <th className="px-4 py-3 text-left text-sm">Size</th>
-              <th className="px-4 py-3 text-left text-sm">Downloads</th>
+              <th className="px-4 py-3 text-left text-sm">Views</th>
               <th className="px-4 py-3 text-left text-sm">Status</th>
               <th className="px-4 py-3 text-left text-sm">Actions</th>
             </tr>
@@ -280,8 +314,15 @@ const CompanyProfileManager = () => {
                         <FaEdit />
                       </button>
                       <button
-                        onClick={() => handleDownloadPDF(profile._id)}
+                        onClick={() => handleViewPDF(profile._id)}
                         className="text-[#2d7d6b] hover:text-[#1a4d46] p-1.5 rounded hover:bg-[#e0f0ed]"
+                        title="View PDF"
+                      >
+                        <FaEye />
+                      </button>
+                      <button
+                        onClick={() => handleDownloadPDF(profile._id, profile.fileName)}
+                        className="text-blue-500 hover:text-blue-700 p-1.5 rounded hover:bg-blue-50"
                         title="Download PDF"
                       >
                         <FaDownload />
@@ -303,7 +344,7 @@ const CompanyProfileManager = () => {
       </div>
       
       <div className="mt-4 text-xs text-[#5a6b7a] bg-[#f8f6f2] p-3 rounded-lg">
-        <p>📌 PDFs are stored directly in MongoDB as Base64. No external file storage needed.</p>
+        <p>📌 PDFs are stored directly in MongoDB as Base64. Click <FaEye className="inline text-[#2d7d6b]" /> to view in browser or <FaDownload className="inline text-blue-500" /> to download.</p>
       </div>
     </div>
   );

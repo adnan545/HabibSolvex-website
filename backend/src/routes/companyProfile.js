@@ -36,9 +36,7 @@ router.get('/', async (req, res) => {
       });
     }
     
-    // Return profile without the actual PDF data for list view
     const profileData = profile.toObject();
-    // Send PDF data as Base64 string
     res.json({
       success: true,
       data: profileData
@@ -52,8 +50,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ===== GET PDF DIRECTLY (For Download) =====
-router.get('/:id/pdf', async (req, res) => {
+// ===== VIEW PDF IN BROWSER (Not Download) =====
+router.get('/:id/view', async (req, res) => {
   try {
     const { id } = req.params;
     const profile = await CompanyProfile.findById(id);
@@ -70,6 +68,36 @@ router.get('/:id/pdf', async (req, res) => {
     await profile.save();
 
     // Convert Base64 to buffer
+    const pdfBuffer = Buffer.from(profile.pdfData, 'base64');
+    
+    // Set headers to display in browser instead of download
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `inline; filename="${profile.fileName || 'company-profile.pdf'}"`);
+    res.setHeader('Content-Length', pdfBuffer.length);
+    res.send(pdfBuffer);
+    
+  } catch (error) {
+    console.error('PDF view error:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
+// ===== DOWNLOAD PDF (For Admin) =====
+router.get('/:id/download', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const profile = await CompanyProfile.findById(id);
+    
+    if (!profile) {
+      return res.status(404).json({
+        success: false,
+        message: 'Profile not found'
+      });
+    }
+
     const pdfBuffer = Buffer.from(profile.pdfData, 'base64');
     
     res.setHeader('Content-Type', 'application/pdf');
@@ -90,7 +118,7 @@ router.get('/:id/pdf', async (req, res) => {
 router.get('/admin', verifyToken, isAdmin, async (req, res) => {
   try {
     const profiles = await CompanyProfile.find()
-      .select('-pdfData') // Exclude PDF data from list view
+      .select('-pdfData')
       .sort({ createdAt: -1 });
     
     res.json({
@@ -122,10 +150,8 @@ router.post(
 
       const { title, description, year } = req.body;
       
-      // Convert PDF to Base64
       const pdfBase64 = req.file.buffer.toString('base64');
       
-      // Unpublish old profiles
       await CompanyProfile.updateMany(
         { isPublished: true },
         { isPublished: false }
@@ -191,7 +217,6 @@ router.put(
       if (isPublished !== undefined) {
         profile.isPublished = isPublished;
         if (isPublished) {
-          // Unpublish all others
           await CompanyProfile.updateMany(
             { _id: { $ne: id }, isPublished: true },
             { isPublished: false }
@@ -250,7 +275,7 @@ router.delete(
   }
 );
 
-// ===== INCREMENT DOWNLOAD COUNT (Alternative endpoint) =====
+// ===== INCREMENT DOWNLOAD COUNT =====
 router.post(
   '/:id/download',
   async (req, res) => {

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   FaEye, FaBullseye, FaHandshake, FaIndustry, FaMapMarkerAlt, FaWarehouse,
-  FaFilePdf, FaDownload, FaCalendarAlt
+  FaFilePdf, FaCalendarAlt, FaDownload
 } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 import api from '../../api/axios';
 
 const About = () => {
@@ -40,25 +41,24 @@ const About = () => {
     }
   };
 
-const handleDownload = async () => {
-  if (!companyProfile) return;
-  
-  try {
-    // Increment download count
-    await api.post(`/company-profile/${companyProfile._id}/download`);
+  // ===== VIEW PDF IN BROWSER =====
+  const handleViewPDF = async () => {
+    if (!companyProfile) return;
     
-    // Open the PDF directly from MongoDB
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-    window.open(`${baseUrl}/company-profile/${companyProfile._id}/pdf`, '_blank');
-  } catch (error) {
-    console.error('Download error:', error);
-    toast.error('Failed to download PDF');
-  }
-};
+    try {
+      await api.post(`/company-profile/${companyProfile._id}/download`);
+      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const pdfUrl = `${baseUrl}/company-profile/${companyProfile._id}/view`;
+      window.open(pdfUrl, '_blank');
+    } catch (error) {
+      console.error('View PDF error:', error);
+      toast.error('Failed to open PDF');
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 md:px-8 py-8">
-      {/* ===== HERO SECTION WITH COMPANY PROFILE ===== */}
+      {/* ===== HERO SECTION - CLEAN DESIGN ===== */}
       <section className="bg-gradient-to-br from-[#f0f3f2] to-[#e4eae8] rounded-[32px] p-8 md:p-16 mt-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           {/* Left Side - Content */}
@@ -66,47 +66,39 @@ const handleDownload = async () => {
             <h1 className="text-3xl md:text-5xl font-bold text-[#1a4d46]">
               About <span className="text-[#2d7d6b]">Habib Solvex</span>
             </h1>
+            
             <p className="text-[#5a6b7a] mt-3 leading-relaxed">
               Habib Solvex is committed to delivering reliable, high-quality solutions with a strong focus on innovation, 
               integrity, and customer satisfaction. We believe in building lasting relationships by providing dependable 
               services tailored to the unique needs of every client.
             </p>
 
-            {/* ===== COMPANY PROFILE IN HERO - WITH VIEW PDF LINK ===== */}
+            {/* ===== COMPANY PROFILE - COMPACT PILL STYLE ===== */}
             {!loadingProfile && companyProfile ? (
-              <div className="mt-3 bg-white/80 backdrop-blur-sm rounded-lg p-2 border border-[#2d7d6b] shadow-sm inline-block">
-                <div className="flex items-center gap-2">
-                  {/* Icon */}
-                  <div className="w-7 h-7 bg-[#1a4d46] rounded-md flex items-center justify-center text-white text-[10px] flex-shrink-0">
-                    <FaFilePdf />
-                  </div>
-                  
-                  {/* Title */}
-                  <h4 className="text-[11px] font-semibold text-[#1a4d46] leading-tight">
-                    {companyProfile.title}
-                  </h4>
-                  
-                  {/* View PDF Link */}
-                  <button
-                    onClick={handleDownload}
-                    className="text-[#2d7d6b] text-[10px] font-medium hover:text-[#1a4d46] hover:underline transition-colors flex items-center gap-1"
-                  >
-                    <FaDownload className="text-[8px]" />
-                    View PDF
-                  </button>
+              <div className="mt-4 inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm px-4 py-2.5 rounded-full border border-[#e0f0ed] shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-8 h-8 bg-[#1a4d46] rounded-full flex items-center justify-center text-white text-xs flex-shrink-0">
+                  <FaFilePdf />
                 </div>
+                <span className="text-sm font-semibold text-[#1a4d46]">
+                  {companyProfile.title}
+                </span>
+                {/* <span className="text-xs text-[#5a6b7a] flex items-center gap-1">
+                  <FaCalendarAlt className="text-[10px]" />
+                  {companyProfile.year || new Date().getFullYear()}
+                </span> */}
+                <button
+                  onClick={handleViewPDF}
+                  className="text-[#2d7d6b] hover:text-[#1a4d46] text-sm font-medium flex items-center gap-1.5 transition-colors ml-1"
+                >
+                  <FaDownload className="text-xs" /> View PDF
+                </button>
               </div>
             ) : (
-              <div className="mt-3 bg-white/80 backdrop-blur-sm rounded-lg p-2 border border-[#e0f0ed] inline-block">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 bg-[#e0f0ed] rounded-md flex items-center justify-center text-[#5a6b7a] text-[10px]">
-                    <FaFilePdf />
-                  </div>
-                  <div>
-                    <h4 className="text-[11px] font-semibold text-[#1a4d46]">Company Profile</h4>
-                    <p className="text-[#5a6b7a] text-[8px]">No profile uploaded</p>
-                  </div>
+              <div className="mt-4 inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm px-4 py-2.5 rounded-full border border-[#e0f0ed]">
+                <div className="w-8 h-8 bg-[#e0f0ed] rounded-full flex items-center justify-center text-[#5a6b7a] text-xs">
+                  <FaFilePdf />
                 </div>
+                <span className="text-sm text-[#5a6b7a]">No profile uploaded</span>
               </div>
             )}
           </div>
