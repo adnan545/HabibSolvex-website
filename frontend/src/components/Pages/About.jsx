@@ -41,14 +41,24 @@ const About = () => {
     }
   };
 
-  // ===== VIEW PDF IN BROWSER =====
+  // ===== VIEW PDF IN BROWSER - FIXED URL =====
   const handleViewPDF = async () => {
     if (!companyProfile) return;
     
     try {
+      // Increment download count
       await api.post(`/company-profile/${companyProfile._id}/download`);
-      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      
+      // Fix: Use the full URL with /api prefix
+      // Get the base URL from api config or environment
+      const baseUrl = api.defaults.baseURL || import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      
+      // Construct the full URL - baseUrl already includes /api
       const pdfUrl = `${baseUrl}/company-profile/${companyProfile._id}/view`;
+      
+      console.log('📄 Opening PDF URL:', pdfUrl); // Debug: check the URL
+      
+      // Open in new tab
       window.open(pdfUrl, '_blank');
     } catch (error) {
       console.error('View PDF error:', error);
@@ -82,10 +92,10 @@ const About = () => {
                 <span className="text-sm font-semibold text-[#1a4d46]">
                   {companyProfile.title}
                 </span>
-                {/* <span className="text-xs text-[#5a6b7a] flex items-center gap-1">
+                <span className="text-xs text-[#5a6b7a] flex items-center gap-1">
                   <FaCalendarAlt className="text-[10px]" />
                   {companyProfile.year || new Date().getFullYear()}
-                </span> */}
+                </span>
                 <button
                   onClick={handleViewPDF}
                   className="text-[#2d7d6b] hover:text-[#1a4d46] text-sm font-medium flex items-center gap-1.5 transition-colors ml-1"
